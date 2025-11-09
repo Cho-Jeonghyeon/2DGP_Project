@@ -1,0 +1,16 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# XML files
+*.xml
+
+# Logs and temp
+*.log
+*.tmp
+
+# Pico2D image/sound assets (optional)
+*.png
+*.jpg
+*.wav
+*.mp3
