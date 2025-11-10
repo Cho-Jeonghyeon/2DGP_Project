@@ -1,9 +1,9 @@
 class StateMachine:
     def __init__(self, start_state):
-        pass
+        self.current_state = start_state
 
     def update(self):
-        pass
+        self.current_state.do()
 
     def draw(self):
-        pass
+        self.current_state.draw()

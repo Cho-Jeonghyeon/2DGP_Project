@@ -10,11 +10,12 @@ class Spaceship:
         self.image = load_image('spaceship_level_1.png')
         self.IDLE, self.MOVE = Idle(self), Move(self)
         self.state_machine = StateMachine(self.IDLE)
+
     def update(self):
-        pass
+        self.state_machine.update()
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        self.state_machine.draw()
 
     def handle_events(self, event):
         pass
