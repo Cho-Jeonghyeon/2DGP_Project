@@ -1,4 +1,6 @@
 from pico2d import *
+from state_machine import StateMachine
+
 
 class Spaceship:
     def __init__(self):
@@ -6,7 +8,8 @@ class Spaceship:
         #self.frame = 0
         #self.face_dir = 1
         self.image = load_image('spaceship_level_1.png')
-
+        self.IDLE, self.MOVE = Idle(self), Move(self)
+        self.state_machine = StateMachine(self.IDLE)
     def update(self):
         pass
 
