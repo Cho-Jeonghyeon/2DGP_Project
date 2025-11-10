@@ -11,7 +11,7 @@ class Spaceship:
         pass
 
     def draw(self):
-        self.image = self.image.draw(self.x, self.y)
+        self.image.draw(self.x, self.y)
 
     def handle_events(self, event):
         pass
@@ -19,3 +19,34 @@ class Spaceship:
     def get_bb(self):
         pass
 
+class Idle:
+    def __init__(self, spaceship):
+        self.spaceship = spaceship
+
+    def enter(self):
+        pass
+
+    def exit(self):
+        pass
+
+    def do(self):
+        pass
+
+    def draw(self):
+        pass
+
+class Move:
+    def __init__(self, spaceship):
+        self.spaceship = spaceship
+
+    def enter(self):
+        pass
+
+    def exit(self):
+        pass
+
+    def do(self):
+        pass
+
+    def draw(self):
+        pass

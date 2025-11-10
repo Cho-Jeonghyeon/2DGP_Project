@@ -7,7 +7,7 @@ image = None
 
 def init():
     global image
-    image = load_image('plant1.png')
+    image = load_image('plant_1.png')
 
 def finish():
     global image
