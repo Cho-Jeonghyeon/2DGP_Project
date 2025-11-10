@@ -1,9 +1,21 @@
+
 class StateMachine:
-    def __init__(self, start_state):
-        self.current_state = start_state
+    def __init__(self, start_state, state_transitions):
+        self.cur_state = start_state
+        self.state_transitions = state_transitions
+        self.cur_state.enter()
 
     def update(self):
-        self.current_state.do()
+        self.cur_state.do()
+
+    def handle_state_event(self, event):
+        for check_event in self.state_transitions[self.cur_state].keys():
+            if check_event(event):
+                self.cur_state.exit()
+                self.next_state = self.state_transitions[self.cur_state][check_event]
+                self.next_state.enter()
+                self.cur_state = self.next_state
+                return
 
     def draw(self):
-        self.current_state.draw()
+        self.cur_state.draw()

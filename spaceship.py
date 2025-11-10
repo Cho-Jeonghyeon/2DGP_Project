@@ -9,7 +9,13 @@ class Spaceship:
         #self.face_dir = 1
         self.image = load_image('spaceship_level_1.png')
         self.IDLE, self.MOVE = Idle(self), Move(self)
-        self.state_machine = StateMachine(self.IDLE)
+        self.state_machine = StateMachine(
+            self.IDLE,
+            {
+                self.MOVE: {right_up: self.IDLE},
+                self.IDLE: {right_down: self.MOVE}
+            }
+        )
 
     def update(self):
         self.state_machine.update()
