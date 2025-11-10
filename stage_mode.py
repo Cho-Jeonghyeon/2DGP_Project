@@ -1,21 +1,32 @@
 from pico2d import *
+from pygame.event import event_name
+
 import game_framework
 import game_mode
 
+image = None
+
 def init():
-    pass
+    global image
+    image = load_image('plant1.png')
 
 def finish():
-    pass
+    global image
+    del image
 
 def update():
     pass
 
 def draw():
-    pass
+    clear_canvas()
+    image.draw(200, 200)
+    update_canvas()
 
 def handle_events():
-    pass
+    event_list = get_events()
+    for event in event_list:
+        if event.type == SDL_MOUSEBUTTONDOWN:
+            game_framework.change_mode(game_mode)
 
 def pause():
     pass
