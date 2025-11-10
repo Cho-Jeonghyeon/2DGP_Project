@@ -1,20 +1,30 @@
 from pico2d import *
 import game_framework
+import stage_mode
+
+mage = None
 
 def init():
-    pass
+    global image
+    image = load_image('background3.png')
 
 def finish():
-    pass
+    global image
+    del image
 
 def update():
     pass
 
 def draw():
-    pass
+    clear_canvas()
+    image.draw(200, 200)
+    update_canvas()
 
 def handle_events():
-    pass
+    event_list = get_events()
+    for event in event_list:
+        if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            game_framework.change_mode(stage_mode)
 
 def pause():
     pass

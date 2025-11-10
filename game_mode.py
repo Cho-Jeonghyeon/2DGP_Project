@@ -3,20 +3,31 @@ import game_framework
 import gameover_mode
 import item_mode
 
+image = None
+
 def init():
-    pass
+    global image
+    image = load_image('background2.png')
 
 def finish():
-    pass
+    global image
+    del image
 
 def update():
     pass
 
 def draw():
-    pass
+    clear_canvas()
+    image.draw(400, 300)
+    update_canvas()
 
 def handle_events():
-    pass
+    events = get_events()
+    for event in events:
+        if event.type == SDL_QUIT:
+            game_framework.quit()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            game_framework.change_mode(gameover_mode)
 
 def pause():
     pass
