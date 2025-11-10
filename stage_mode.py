@@ -1,5 +1,4 @@
 from pico2d import *
-from pygame.event import event_name
 
 import game_framework
 import game_mode

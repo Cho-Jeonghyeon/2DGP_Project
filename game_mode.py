@@ -2,23 +2,27 @@ from pico2d import *
 import game_framework
 import gameover_mode
 import item_mode
+from spaceship import Spaceship
 
-image = None
+background_level_1 = None
+spaceship = None
 
 def init():
-    global image
-    image = load_image('background2.png')
+    global background_level_1, spaceship
+    background_level_1 = load_image('background2.png')
+    spaceship = Spaceship()
 
 def finish():
-    global image
-    del image
+    global background_level_1, spaceship
+    del background_level_1, spaceship
 
 def update():
     pass
 
 def draw():
     clear_canvas()
-    image.draw(400, 300)
+    background_level_1.draw(400, 300)
+    spaceship.draw()
     update_canvas()
 
 def handle_events():
