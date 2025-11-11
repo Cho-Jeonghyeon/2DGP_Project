@@ -1,17 +1,21 @@
 from pico2d import *
 import game_framework
+import game_world
 import stage_mode
+from background import Background
+from stage_button import Button
 
-image = None
 
 def init():
-    global image
-    image = load_image('images/game_start.png')
+    global gamestart, button
+    gamestart = Background('images/game_start.png')
+    button = Button('images/start.png', 600, 180, 300, 80)
 
+    game_world.add_object(gamestart, 0)
+    game_world.add_object(button, 1)
 
 def finish():
-    global image
-    del image
+    game_world.clear()
 
 
 def update():
@@ -19,7 +23,7 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(600, 500)
+    game_world.render()
     update_canvas()
 
 def handle_events():
@@ -29,8 +33,11 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
-            game_framework.change_mode(stage_mode)
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            mx, my = event.x, 1000 - event.y
+            if button.is_clicked(mx, my):
+                print("게임 시작 버튼 클릭됨!")
+                game_framework.change_mode(stage_mode)
 
 def pause():
     pass
