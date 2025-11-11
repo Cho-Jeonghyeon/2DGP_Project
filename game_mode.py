@@ -35,7 +35,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.change_mode(gameover_mode)
         else:
-            spaceship.handle_events(('INPUT', event))
+            spaceship.handle_events(event)
 
 def pause():
     pass
