@@ -11,7 +11,7 @@ spaceship = None
 
 def init():
     global background, spaceship
-    background = Background('level3_background.png')
+    background = Background('images/level3_background.png')
     spaceship = Spaceship()
     game_world.add_object(background, 0)
     game_world.add_object(spaceship, 1)

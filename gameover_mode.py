@@ -7,7 +7,7 @@ from background import Background
 
 def init():
     global background
-    background = Background('gameover.png')
+    background = Background('images/gameover.png')
     game_world.add_object(background, 0)
 
 def finish():

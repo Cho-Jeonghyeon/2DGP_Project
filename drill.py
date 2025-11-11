@@ -2,7 +2,7 @@ from pico2d import *
 
 class Drill:
     def __init__(self):
-        self.image = load_image('drill2.png')
+        self.image = load_image('images/drill2.png')
         self.frame = 0
         self.level = 0
         self.x, self.y = 400, 300

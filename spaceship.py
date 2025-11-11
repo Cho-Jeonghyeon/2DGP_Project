@@ -40,7 +40,7 @@ class Spaceship:
         self.dir_y = 0
 
         self.speed = 2
-        self.image = load_image('spaceship_level_1.png')
+        self.image = load_image('images/spaceship_level_1.png')
         self.IDLE, self.MOVE = Idle(self), Move(self)
         # 전이 테이블은 최소화: 초기 상태에서 enter 호출만 필요
         self.state_machine = StateMachine(

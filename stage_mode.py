@@ -13,10 +13,10 @@ background = None
 def init():
     global  background
 
-    background = Background('main_background.png')
-    stage1 = StageButton('plant_1.png', 200, 200, 200, 200, game_mode_1)
-    stage2 = StageButton('plant_2.png', 400, 200, 200, 200, game_mode_2)
-    stage3 = StageButton('plant_3.png', 600, 200, 200, 200, game_mode_3)
+    background = Background('images/main_background.png')
+    stage1 = StageButton('images/plant_1.png', 200, 200, 200, 200, game_mode_1)
+    stage2 = StageButton('images/plant_2.png', 400, 200, 200, 200, game_mode_2)
+    stage3 = StageButton('images/plant_3.png', 600, 200, 200, 200, game_mode_3)
 
     game_world.add_object(background, 0)
     game_world.add_objects([stage1, stage2, stage3], 1)

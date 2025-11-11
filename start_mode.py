@@ -6,7 +6,7 @@ image = None
 
 def init():
     global image
-    image = load_image('game_start.png')
+    image = load_image('images/game_start.png')
 
 
 def finish():
