@@ -3,22 +3,24 @@ from pico2d import *
 import game_framework
 import game_mode
 
-image = None
+stage1 = None
+background = None
 
 def init():
-    global image
-    image = load_image('plant_1.png')
-
+    global stage1, background
+    stage1 = load_image('plant_1.png')
+    background = load_image('main_background.png')
 def finish():
-    global image
-    del image
+    global stage1, background
+    del stage1, background
 
 def update():
     pass
 
 def draw():
     clear_canvas()
-    image.draw(200, 200)
+    background.draw(600, 500)
+    stage1.draw(200, 200)
     update_canvas()
 
 def handle_events():

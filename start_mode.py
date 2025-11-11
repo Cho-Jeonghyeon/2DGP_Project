@@ -6,7 +6,7 @@ image = None
 
 def init():
     global image
-    image = load_image('background1.png')
+    image = load_image('game_start.png')
 
 
 def finish():
@@ -19,7 +19,7 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(400, 300)
+    image.draw(600, 500)
     update_canvas()
 
 def handle_events():
