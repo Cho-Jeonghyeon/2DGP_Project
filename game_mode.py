@@ -3,26 +3,28 @@ import game_framework
 import gameover_mode
 import item_mode
 from spaceship import Spaceship
+import game_world
+from background import Background
 
-background_level_1 = None
+background = None
 spaceship = None
 
 def init():
-    global background_level_1, spaceship
-    background_level_1 = load_image('background2.png')
+    global background, spaceship
+    background = Background()
     spaceship = Spaceship()
+    game_world.add_object(background, 0)
+    game_world.add_object(spaceship, 1)
 
 def finish():
-    global background_level_1, spaceship
-    del background_level_1, spaceship
+    game_world.clear()
 
 def update():
-    pass
+    game_world.update()
 
 def draw():
     clear_canvas()
-    background_level_1.draw(400, 300)
-    spaceship.draw()
+    game_world.render()
     update_canvas()
 
 def handle_events():
@@ -32,6 +34,8 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.change_mode(gameover_mode)
+        else:
+            spaceship.handle_events(('INPUT', event))
 
 def pause():
     pass
