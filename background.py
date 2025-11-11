@@ -1,8 +1,8 @@
 from pico2d import *
 
 class Background:
-    def __init__(self, image_name='level1_background.png'):
-        self.image = load_image(image_name)
+    def __init__(self, path):
+        self.image = load_image(path)
         self.x, self.y = 600, 500   # 화면 중앙 고정
 
 

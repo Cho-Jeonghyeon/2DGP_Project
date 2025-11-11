@@ -1,23 +1,24 @@
 from pico2d import *
 import game_framework
+import game_world
 import stage_mode
+from background import Background
 
-mage = None
 
 def init():
-    global image
-    image = load_image('background3.png')
+    global background
+    background = Background('gameover.png')
+    game_world.add_object(background, 0)
 
 def finish():
-    global image
-    del image
+    game_world.clear()
 
 def update():
-    pass
+    game_world.update()
 
 def draw():
     clear_canvas()
-    image.draw(200, 200)
+    game_world.render()
     update_canvas()
 
 def handle_events():
