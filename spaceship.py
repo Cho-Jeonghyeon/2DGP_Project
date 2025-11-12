@@ -29,7 +29,7 @@ def down_up(event):
 
 class Spaceship:
     def __init__(self):
-        self.x, self.y = 300,300
+        self.x, self.y = 600,300
         self.frame = 0
 
         self.key_right = False
@@ -107,7 +107,7 @@ class Idle:
 
     def draw(self):
         # 이미지 그리기
-        self.spaceship.image.draw(self.spaceship.x, self.spaceship.y)
+        self.spaceship.image.draw(self.spaceship.x, self.spaceship.y,80,80)
 
 class Move:
     def __init__(self, spaceship):
@@ -149,6 +149,9 @@ class Move:
         self.spaceship.x += dx * self.spaceship.speed
         self.spaceship.y += dy * self.spaceship.speed
 
+        self.spaceship.x = clamp(40, self.spaceship.x, 1160)  # 왼쪽/오른쪽 벽
+        self.spaceship.y = clamp(40, self.spaceship.y, 960)  # 아래/위 벽
+
         # 모든 키가 안 눌려있으면 Idle로 전환
         if not (self.spaceship.key_right or self.spaceship.key_left or
                 self.spaceship.key_up or self.spaceship.key_down):
@@ -156,4 +159,4 @@ class Move:
             self.spaceship.IDLE.enter()
 
     def draw(self):
-        self.spaceship.image.draw(self.spaceship.x, self.spaceship.y)
+        self.spaceship.image.draw(self.spaceship.x, self.spaceship.y,80,80)

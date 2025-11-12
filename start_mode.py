@@ -28,7 +28,7 @@ def draw():
     clear_canvas()
     game_world.render()
     logo.draw(600,800)
-    char.draw(600,400)
+    char.draw(600,450, 200,200)
     update_canvas()
 
 def handle_events():

@@ -6,8 +6,9 @@ from background import Background
 
 
 def init():
-    global background
-    background = Background('images/gameover.png')
+    global background, gameover
+    background = Background('images/level3_background.png')
+    gameover = load_image('images/gameover.png')
     game_world.add_object(background, 0)
 
 def finish():
@@ -19,6 +20,7 @@ def update():
 def draw():
     clear_canvas()
     game_world.render()
+    gameover.draw(600, 500)
     update_canvas()
 
 def handle_events():
@@ -26,7 +28,7 @@ def handle_events():
     for event in event_list:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_r:
             game_framework.change_mode(stage_mode)
 
 def pause():
