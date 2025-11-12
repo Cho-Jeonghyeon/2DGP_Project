@@ -1,5 +1,6 @@
 from pico2d import *
 from state_machine import StateMachine
+import math
 
 # 이벤트 검사: raw SDL 이벤트 사용으로 수정
 def right_down(event):
