@@ -39,7 +39,7 @@ class Spaceship:
         self.dir_x = 0
         self.dir_y = 0
 
-        self.speed = 2
+        self.speed = 1
         self.image = load_image('images/spaceship_level_1.png')
         self.IDLE, self.MOVE = Idle(self), Move(self)
         # 전이 테이블은 최소화: 초기 상태에서 enter 호출만 필요
@@ -57,7 +57,7 @@ class Spaceship:
 
     def draw(self):
         self.state_machine.draw()
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
 
     def handle_events(self, event):
         # 키 플래그를 직접 갱신하여 MOVE 상태에서도 즉시 반영되도록 함
