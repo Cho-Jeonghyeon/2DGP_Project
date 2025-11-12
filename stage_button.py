@@ -28,10 +28,10 @@ class Plant:
         frame_index = int(self.frame)
         sx = frame_index * self.frame_width
         self.image.clip_draw(sx, 0, self.frame_width, self.frame_height, self.x, self.y, self.w, self.h)
+        draw_rectangle(*self.get_bb())
 
-    def is_clicked(self, mx, my):
-        return (self.x - self.w/2 <= mx <= self.x + self.w/2) and \
-               (self.y - self.h/2 <= my <= self.y + self.h/2)
+    def get_bb(self):
+        return [self.x-150, self.y-150, self.x+150, self.y+150]
 
 class Button:
     def __init__(self, image_path, x, y, w, h):

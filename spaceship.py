@@ -57,6 +57,7 @@ class Spaceship:
 
     def draw(self):
         self.state_machine.draw()
+        draw_rectangle(*self.get_bb())
 
     def handle_events(self, event):
         # 키 플래그를 직접 갱신하여 MOVE 상태에서도 즉시 반영되도록 함
@@ -82,7 +83,7 @@ class Spaceship:
             self.IDLE.enter()
 
     def get_bb(self):
-        pass
+        return self.x-50, self.y-50, self.x+50, self.y+50
 
 class Idle:
     def __init__(self, spaceship):
