@@ -1,6 +1,8 @@
 from pico2d import *
 from state_machine import StateMachine
 import math
+import game_framework
+from drill import Drill
 
 # 이벤트 검사: raw SDL 이벤트 사용으로 수정
 def right_down(event):
@@ -32,6 +34,7 @@ class Spaceship:
     def __init__(self):
         self.x, self.y = 600,300
         self.frame = 0
+        self.dx, self.dy = 0, 0
 
         self.key_right = False
         self.key_left = False
@@ -40,9 +43,16 @@ class Spaceship:
         self.dir_x = 0
         self.dir_y = 0
 
-        self.speed = 1
+        self.speed = 300
         self.image = load_image('images/spaceship_level_1.png')
         self.IDLE, self.MOVE = Idle(self), Move(self)
+        # 회전 각도 (라디안)
+        self.angle = math.radians(0)  # 기본적으로 위쪽 바라봄
+
+        # 드릴 장착
+        self.drill = Drill()
+        self.drill_offset = 50  # 드릴이 우주선 중심에서 떨어진 거리
+
         # 전이 테이블은 최소화: 초기 상태에서 enter 호출만 필요
         self.state_machine = StateMachine(
             self.IDLE,
@@ -54,37 +64,64 @@ class Spaceship:
         )
 
     def update(self):
-        self.state_machine.update()
+        # 이동
+        self.x += self.dx * self.speed * game_framework.frame_time
+        self.y += self.dy * self.speed * game_framework.frame_time
+
+        # 화면 경계 제한
+        self.x = clamp(40, self.x, 1160)
+        self.y = clamp(40, self.y, 960)
+
+        # 방향각 업데이트 (움직일 때만)
+        if self.dx != 0 or self.dy != 0:
+            self.angle = math.atan2(self.dy, self.dx)
+
+        # 드릴 애니메이션 업데이트
+        self.drill.update()
 
     def draw(self):
-        self.state_machine.draw()
+        # 이미지가 '아래쪽'을 보고 있으므로 -90도 보정
+        draw_angle = self.angle - math.pi / 2
+
+        # 우주선 회전해서 그림
+        self.image.rotate_draw(draw_angle, self.x, self.y, 80, 80)
+
+        # 드릴 위치 계산 (보정된 각도 기준)
+        drill_x = self.x + math.cos(self.angle) * self.drill_offset
+        drill_y = self.y + math.sin(self.angle) * self.drill_offset
+
+        # 드릴 방향도 동일하게 회전
+        self.drill.draw(drill_x, drill_y, draw_angle)
+
         #draw_rectangle(*self.get_bb())
 
     def handle_events(self, event):
-        # 키 플래그를 직접 갱신하여 MOVE 상태에서도 즉시 반영되도록 함
         if event.type == SDL_KEYDOWN:
-            if event.key == SDLK_RIGHT: self.key_right = True
-            if event.key == SDLK_LEFT:  self.key_left = True
-            if event.key == SDLK_UP:    self.key_up = True
-            if event.key == SDLK_DOWN:  self.key_down = True
+            if event.key == SDLK_RIGHT:
+                self.dx = 1
+            elif event.key == SDLK_LEFT:
+                self.dx = -1
+            elif event.key == SDLK_UP:
+                self.dy = 1
+            elif event.key == SDLK_DOWN:
+                self.dy = -1
         elif event.type == SDL_KEYUP:
-            if event.key == SDLK_RIGHT: self.key_right = False
-            if event.key == SDLK_LEFT:  self.key_left = False
-            if event.key == SDLK_UP:    self.key_up = False
-            if event.key == SDLK_DOWN:  self.key_down = False
-
-        # 상태 전환 처리: IDLE->MOVE, MOVE->IDLE를 직접 제어
-        cur = self.state_machine.cur_state
-        any_key = (self.key_right or self.key_left or self.key_up or self.key_down)
-        if any_key and cur is self.IDLE:
-            self.state_machine.cur_state = self.MOVE
-            self.MOVE.enter(event)
-        elif not any_key and cur is self.MOVE:
-            self.state_machine.cur_state = self.IDLE
-            self.IDLE.enter()
+            if event.key == SDLK_RIGHT and self.dx > 0:
+                self.dx = 0
+            elif event.key == SDLK_LEFT and self.dx < 0:
+                self.dx = 0
+            elif event.key == SDLK_UP and self.dy > 0:
+                self.dy = 0
+            elif event.key == SDLK_DOWN and self.dy < 0:
+                self.dy = 0
 
     def get_bb(self):
         return self.x-50, self.y-45, self.x+50, self.y+45
+
+    def get_bb_drill(self):
+        drill_x = self.x + math.cos(self.angle) * self.drill_offset
+        drill_y = self.y + math.sin(self.angle) * self.drill_offset
+        return drill_x - 10, drill_y - 10, drill_x + 10, drill_y + 10
 
 class Idle:
     def __init__(self, spaceship):
