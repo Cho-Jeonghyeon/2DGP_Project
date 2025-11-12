@@ -31,7 +31,7 @@ class Plant:
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return [self.x-150, self.y-150, self.x+150, self.y+150]
+        return [self.x-145, self.y-145, self.x+145, self.y+145]
 
 class Button:
     def __init__(self, image_path, x, y, w, h):

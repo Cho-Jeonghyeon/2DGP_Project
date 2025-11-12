@@ -83,7 +83,7 @@ class Spaceship:
             self.IDLE.enter()
 
     def get_bb(self):
-        return self.x-50, self.y-50, self.x+50, self.y+50
+        return self.x-50, self.y-45, self.x+50, self.y+45
 
 class Idle:
     def __init__(self, spaceship):
