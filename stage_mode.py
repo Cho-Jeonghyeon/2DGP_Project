@@ -5,7 +5,7 @@ import game_mode_1
 import game_mode_2
 import game_mode_3
 import game_world
-from stage_button import StageButton
+from stage_button import *
 from background import Background
 
 background = None
@@ -13,13 +13,17 @@ background = None
 def init():
     global  background
 
-    background = Background('images/main_background.png')
-    stage1 = StageButton('images/ice_plant.png', 200, 200, 200, 200, game_mode_1)
-    stage2 = StageButton('images/lava_plant.png', 400, 200, 200, 200, game_mode_2)
-    stage3 = StageButton('images/gas_plant.png', 600, 200, 200, 200, game_mode_3)
+    background = Background('images/main_background.png', speed=60)
+    stage1 = Plant('images/ice_plant.png', 200, 800, 300, 300, game_mode_1)
+    stage2 = Plant('images/lava_plant.png', 600, 800, 300, 300, game_mode_2)
+    stage3 = Plant('images/gas_plant.png', 1000, 800, 300, 300, game_mode_3)
 
+    upgrade = Button('images/upgrade.png', 425, 100, 250, 100)
+    equipment = Button('images/equip.png', 775, 100, 250, 100)
     game_world.add_object(background, 0)
     game_world.add_objects([stage1, stage2, stage3], 1)
+    game_world.add_object(upgrade, 1)
+    game_world.add_object(equipment, 1)
 
 def finish():
     game_world.clear()
@@ -41,7 +45,7 @@ def handle_events():
             print(f"Mouse click: ({mx}, {my})")  #  클릭 좌표 디버깅
 
             for obj in game_world.world[1]:  # 버튼 레이어
-                if isinstance(obj, StageButton) and obj.is_clicked(mx, my):
+                if isinstance(obj, Plant) and obj.is_clicked(mx, my):
                     print(f" {obj.stage_mode}")  #  연결된 모드 확인
                     game_framework.change_mode(obj.stage_mode)
 

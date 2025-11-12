@@ -3,7 +3,7 @@ from pico2d import *
 import game_framework
 
 
-class StageButton:
+class Plant:
     def __init__(self, image_path, x, y, w, h, stage_mode, frame_count=20, fps=7):
         self.image = load_image(image_path)
         self.x, self.y = x, y
