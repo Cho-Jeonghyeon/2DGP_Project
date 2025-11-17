@@ -6,7 +6,7 @@ from drill import Drill
 class SpaceshipGame:
     def __init__(self, planet):
         self.x, self.y = 600, 400  # 화면 중앙 고정
-        self.speed = 300
+        self.speed = 150
         self.image = load_image('images/spaceship_level_1.png')
 
         # 방향 벡터
@@ -25,20 +25,23 @@ class SpaceshipGame:
 
         # === 상하 이동 (스크롤 + 끝에서는 실제 이동) ===
         scroll_speed = self.dy * self.speed * game_framework.frame_time
+        target_y = 400
 
-        # 위로 이동 (행성 아래쪽이 올라오게)
-        if self.dy > 0 and self.planet.scroll_y < self.planet.height - 1000:
+        # 행성 스크롤 구간
+        if (self.dy > 0 and self.planet.scroll_y < self.planet.height - 1000) or \
+                (self.dy < 0 and self.planet.scroll_y > 0):
+
+            # 행성 스크롤 이동
             self.planet.scroll_y += scroll_speed
-            self.y = 400
-        # 아래로 이동 (행성 윗부분으로 돌아가게)
-        elif self.dy < 0 and self.planet.scroll_y > 0:
-            self.planet.scroll_y += scroll_speed
-            self.y = 400
-        # 더 이상 스크롤 불가능할 때만 우주선 실제 이동
+
+            # --- 일정 속도 보간
+            lerp_speed = 1.0 * game_framework.frame_time  # 값 낮을수록 더 부드럽고 느림
+            self.y = self.y * (1 - lerp_speed) + target_y * lerp_speed
+
         else:
             # 맨 위나 맨 아래라면 우주선을 실제로 움직임
             self.y += self.dy * self.speed * game_framework.frame_time
-            self.y = clamp(100, self.y, 1000)
+            self.y = clamp(70, self.y, 950)
 
         # 방향 회전 계산
         if self.dx != 0 or self.dy != 0:
