@@ -11,7 +11,7 @@ class Drill:
         self.total_frames = 5     # 총 프레임 수
         self.frame_width = 22 #self.image.w // self.total_frames  #
         self.frame_height = self.image.h  # = 13
-        self.drill_size = 48      # 화면에 그릴 크기 (확대용)
+        self.drill_size = 35      # 화면에 그릴 크기 (확대용)
 
     def update(self):
         # 회전 애니메이션 프레임 업데이트

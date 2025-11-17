@@ -84,7 +84,7 @@ class Spaceship:
         draw_angle = self.angle - math.pi / 2
 
         # 우주선 회전해서 그림
-        self.image.rotate_draw(draw_angle, self.x, self.y, 80, 80)
+        self.image.rotate_draw(draw_angle, self.x, self.y, 70, 70)
 
         # 드릴 위치 계산 (보정된 각도 기준)
         drill_x = self.x + math.cos(self.angle) * self.drill_offset
