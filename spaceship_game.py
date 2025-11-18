@@ -5,7 +5,7 @@ from drill import Drill
 
 class SpaceshipGame:
     def __init__(self, planet):
-        self.x, self.y = 600, 400  # 화면 중앙 고정
+        self.x, self.y = 600, 900  # 화면 중앙 고정
         self.speed = 150
         self.image = load_image('images/spaceship_level_1.png')
 
@@ -35,13 +35,18 @@ class SpaceshipGame:
             self.planet.scroll_y += scroll_speed
 
             # --- 일정 속도 보간
-            lerp_speed = 1.0 * game_framework.frame_time  # 값 낮을수록 더 부드럽고 느림
+            lerp_speed = 0.5 * game_framework.frame_time  # 값 낮을수록 더 부드럽고 느림
             self.y = self.y * (1 - lerp_speed) + target_y * lerp_speed
 
         else:
-            # 맨 위나 맨 아래라면 우주선을 실제로 움직임
-            self.y += self.dy * self.speed * game_framework.frame_time
-            self.y = clamp(70, self.y, 950)
+
+            if self.dx == 0 and self.dy == 0:
+                self.y -= 30 * game_framework.frame_time
+                self.y = clamp(70, self.y, 950)
+            else:
+                # 맨 위나 맨 아래라면 우주선을 실제로 움직임
+                self.y += self.dy * self.speed * game_framework.frame_time
+                self.y = clamp(70, self.y, 950)
 
         # 방향 회전 계산
         if self.dx != 0 or self.dy != 0:
