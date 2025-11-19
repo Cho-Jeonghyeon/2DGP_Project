@@ -1,6 +1,8 @@
 from pico2d import *
 import math
 import game_framework
+from game_mode_1 import planet
+#from planet1 import Planet
 
 class Drill:
     def __init__(self):
@@ -22,6 +24,10 @@ class Drill:
 
         # 이미지가 "왼쪽"을 바라보므로, draw_angle은 우주선 각도 + 90도 보정
         draw_angle = angle - math.pi / 2
+
+        # ===== 타일 파괴 추가 =====
+
+        planet.destroy_at(x, y, radius=2)
 
         self.image.clip_composite_draw(
             frame_index * self.frame_width,  # x좌표 (왼쪽부터 프레임 자르기)
