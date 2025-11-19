@@ -35,7 +35,7 @@ class SpaceshipGame:
             self.planet.scroll_y += scroll_speed
 
             # --- 일정 속도 보간
-            lerp_speed = 0.5 * game_framework.frame_time  # 값 낮을수록 더 부드럽고 느림
+            lerp_speed = 0.3 * game_framework.frame_time  # 값 낮을수록 더 부드럽고 느림
             self.y = self.y * (1 - lerp_speed) + target_y * lerp_speed
 
         else:
