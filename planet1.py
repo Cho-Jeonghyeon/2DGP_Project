@@ -48,7 +48,7 @@ class Planet:
                 sy = (tile // 8) * self.TILE
 
                 self.tileset.clip_draw(
-                    sx, sy,
+                    sx-self.TILE, sy,
                     self.TILE, self.TILE,
                     world_x + self.TILE // 2,
                     world_y + self.TILE // 2

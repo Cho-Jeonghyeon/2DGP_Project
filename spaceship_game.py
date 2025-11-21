@@ -39,8 +39,15 @@ class SpaceshipGame:
 
         else:
             if self.dx == 0 and self.dy == 0:
-                self.y -= 30 * game_framework.frame_time
+                fall_speed = 20* game_framework.frame_time
+                fall_speed2 = 25* game_framework.frame_time
+
+                self.y -= fall_speed
+                self.planet.scroll_y -= fall_speed2
+
                 self.y = clamp(70, self.y, 950)
+                self.planet.scroll_y = clamp(0, self.planet.scroll_y, max_scroll)
+
             else:
                 self.y += self.dy * self.speed * game_framework.frame_time
                 self.y = clamp(70, self.y, 950)
