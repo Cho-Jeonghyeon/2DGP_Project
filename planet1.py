@@ -2,19 +2,19 @@ from pico2d import *
 
 class Planet:
     TILE = 32
-    MAP_W = 200
-    MAP_H = 600
+    MAP_W = 40
+    MAP_H = 100
 
     def __init__(self):
         self.tileset = load_image("images/tileset.png")
 
-        self.map = self.load_map("planet_map.txt")
+        self.map = self.load_map("planet_map_test.txt")
 
         # 타일맵 전체 높이
         self.total_height = self.MAP_H * self.TILE
 
         # 스크롤 시작
-        self.scroll_y = 0
+        self.scroll_y = self.total_height - 1000
 
     def load_map(self, path):
         data = []
@@ -22,6 +22,7 @@ class Planet:
             for line in f:
                 row = list(map(int, line.split()))
                 data.append(row)
+        data.reverse()
         return data
 
     def draw(self):
@@ -53,7 +54,10 @@ class Planet:
                     world_y + self.TILE // 2
                 )
 
-    def destroy_at(self, world_x, world_y, radius=2):
+    def update(self):
+        pass
+
+    def destroy(self, world_x, world_y, radius=1):
         tile_c = int(world_x // self.TILE)
         tile_r = int((world_y + self.scroll_y) // self.TILE)
 
@@ -67,3 +71,5 @@ class Planet:
 
                 if 0 <= r < self.MAP_H and 0 <= c < self.MAP_W:
                     self.map[r][c] = 0
+
+
