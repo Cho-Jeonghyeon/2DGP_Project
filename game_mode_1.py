@@ -1,8 +1,6 @@
 from pico2d import *
 import game_framework
 import gameover_mode
-import item_mode
-#from spaceship import Spaceship
 from spaceship_game import *
 import game_world
 from background import Background
@@ -14,10 +12,12 @@ spaceship = None
 
 def init():
     global background, spaceship, planet
+
     background = Background('images/level1_background.png')
 
     planet = Planet()
     spaceship = SpaceshipGame(planet)
+
     game_world.add_object(background, 0)
     game_world.add_object(planet, 1)
     game_world.add_object(spaceship, 1)
@@ -26,13 +26,11 @@ def finish():
     game_world.clear()
 
 def update():
-    global planet, spaceship
     spaceship.update()
     game_world.update()
 
 def draw():
     clear_canvas()
-   # planet.draw()
     game_world.render()
     update_canvas()
 
@@ -48,5 +46,6 @@ def handle_events():
 
 def pause():
     pass
+
 def resume():
     pass
