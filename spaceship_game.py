@@ -39,7 +39,7 @@ class SpaceshipGame:
 
         else:
             if self.dx == 0 and self.dy == 0:
-                fall_speed = 20* game_framework.frame_time
+                fall_speed = 15* game_framework.frame_time
                 fall_speed2 = 25* game_framework.frame_time
 
                 self.y -= fall_speed
@@ -65,6 +65,9 @@ class SpaceshipGame:
         drill_y = self.y + math.sin(self.angle) * self.drill_offset
 
         self.drill.draw(drill_x, drill_y, draw_angle)
+        # === 타일 파괴 ===
+        from game_mode_1 import planet
+        planet.destroy(drill_x, drill_y, radius=1, damage=self.drill.damage)
 
     def handle_events(self, event):
         if event.type == SDL_KEYDOWN:

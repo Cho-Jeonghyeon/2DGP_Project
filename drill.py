@@ -12,6 +12,9 @@ class Drill:
         self.frame_height = self.image.h
         self.drill_size = 50
 
+        self.level = 1
+        self.damage = 1
+
     def update(self):
         self.frame = (self.frame + 12 * game_framework.frame_time) % self.total_frames
 
@@ -29,9 +32,9 @@ class Drill:
             self.drill_size, self.drill_size
         )
 
-        # ===== 타일 파괴 추가 =====
-        try:
-            from game_mode_1 import planet
-            planet.destroy(x, y, radius=1)
-        except:
-            pass
+        # # ===== 타일 파괴 추가 =====
+        # try:
+        #     from game_mode_1 import planet
+        #     planet.destroy(x, y, radius=1)
+        # except:
+        #     pass

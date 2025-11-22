@@ -16,6 +16,11 @@ class Planet:
         # 스크롤 시작
         self.scroll_y = self.total_height - 1000
 
+        self.tile_hp = [
+            [self.mineral_hp(tile) for tile in row]
+            for row in self.map
+        ]
+
     def load_map(self, path):
         data = []
         with open(path, "r") as f:
@@ -57,7 +62,7 @@ class Planet:
     def update(self):
         pass
 
-    def destroy(self, world_x, world_y, radius=1):
+    def destroy(self, world_x, world_y, radius=1, damage=1):
         tile_c = int(world_x // self.TILE)
         tile_r = int((world_y + self.scroll_y) // self.TILE)
 
@@ -70,6 +75,22 @@ class Planet:
                 c = tile_c + dx
 
                 if 0 <= r < self.MAP_H and 0 <= c < self.MAP_W:
-                    self.map[r][c] = 0
+                    if self.map[r][c] ==0:
+                        continue
+                    self.tile_hp[r][c] -= damage
+                    if self.tile_hp[r][c] <=0:
+                        self.map[r][c] =0
+                        self.tile_hp[r][c] = 0
 
 
+
+    def mineral_hp(self, tile):
+        if tile ==1:
+            return 1
+        if tile ==2:
+            return 2
+        if tile ==3:
+            return 3
+        if tile ==4:
+            return 4
+        return 0
