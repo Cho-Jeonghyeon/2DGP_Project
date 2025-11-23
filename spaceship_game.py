@@ -29,6 +29,8 @@ class Spaceship:
         self.camera_y = self.world_y - SCREEN_H // 2
 
         self.image = load_image('images/spaceship_level_1.png')
+        self.collision_lock = 0.0  # 남은 lock 시간
+        self.collision_lock_duration = 0.10  # 0.1초 동안 충돌 무효
 
     # ===============================================
     # Input
@@ -58,7 +60,6 @@ class Spaceship:
 
         # 가로 world clamp
         self.world_x = clamp(0, self.world_x, self.planet.world_width)
-
         # ---------------------
         # 2) Drill world 위치
         # ---------------------
@@ -77,19 +78,40 @@ class Spaceship:
         # 4) bounce(반동)
         # ---------------------
         if hit:
-            bounce = 80 * frame_time
+            # bounce = 1500 * frame_time
+            # self.world_x -= math.cos(self.angle) * bounce
+            # self.world_y -= math.sin(self.angle) * bounce
+            bounce = 600 * frame_time + 20
             self.world_x -= math.cos(self.angle) * bounce
             self.world_y -= math.sin(self.angle) * bounce
+            return
+        # if hit:
+        #     bounce = 1500 * frame_time
+        #     self.world_x -= math.cos(self.angle) * bounce
+        #     self.world_y -= math.sin(self.angle) * bounce
+        #     return
+
 
         # ---------------------
         # 5) Camera follow
         # ---------------------
         target_camera_y = self.world_y - SCREEN_H // 2
-        self.camera_y = target_camera_y
+        lerp = 8 * frame_time  # 따라오는 속도(6~12 추천)
+        self.camera_y = self.camera_y * (1 - lerp) + target_camera_y * lerp
+
+        # target_camera_y = self.world_y - SCREEN_H // 2
+        # self.camera_y = target_camera_y
 
         # Camera clamp
         max_cam_y = self.planet.world_height - SCREEN_H
         self.camera_y = clamp(0, self.camera_y, max_cam_y)
+
+        # idle 중력 처리
+        if self.dx == 0 and self.dy == 0 and not hit:
+            fall_speed = 120 * frame_time
+            self.world_y -= fall_speed
+            if self.world_y < 0:
+                self.world_y = 0
 
         # ---------------------
         # 6) Drill update

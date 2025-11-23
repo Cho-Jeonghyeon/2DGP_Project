@@ -1,5 +1,6 @@
 # drill.py
-from pico2d import load_image
+from pico2d import *
+
 
 class Drill:
     def __init__(self):
@@ -20,6 +21,15 @@ class Drill:
         # drill은 spaceship이 world→screen 계산해서 넘겨 줌
         self.image.rotate_draw(angle - 3.14/2, screen_x, screen_y, 40, 40)
 
+        import math
+
+        def draw(self, screen_x, screen_y, angle):
+            # idle 진동
+            t = get_time()
+            shake = math.sin(t * 20) * 3  # freq=20, amplitude=3px
+            screen_x += shake
+
+            self.image.rotate_draw(angle - 3.14 / 2, screen_x, screen_y, 40, 40)
 
 
 
