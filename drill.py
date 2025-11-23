@@ -1,5 +1,7 @@
-# drill.py
 from pico2d import *
+import math
+
+import game_framework
 
 
 class Drill:
@@ -9,27 +11,21 @@ class Drill:
         self.frame_speed = 20  # 회전 애니메이션 속도
         self.damage = 10
 
+        self.total_frames = 5
+        self.frame_width = 22
+        self.frame_height = self.image.h
+        self.drill_size = 50
+
     def update(self):
         # 단순 회전 애니메이션
-        self.frame = (self.frame + self.frame_speed * 0.016) % 360
+        self.frame = (self.frame + 12 * game_framework.frame_time) % self.total_frames
 
     def draw(self, screen_x, screen_y, angle):
-        """
-        screen_x, screen_y : 화면에 그릴 위치
-        angle : 회전 각도
-        """
-        # drill은 spaceship이 world→screen 계산해서 넘겨 줌
-        self.image.rotate_draw(angle - 3.14/2, screen_x, screen_y, 40, 40)
+        frame_index = int(self.frame)
+        draw_angle = angle - math.pi / 2
 
-        import math
-
-        def draw(self, screen_x, screen_y, angle):
-            # idle 진동
-            t = get_time()
-            shake = math.sin(t * 20) * 3  # freq=20, amplitude=3px
-            screen_x += shake
-
-            self.image.rotate_draw(angle - 3.14 / 2, screen_x, screen_y, 40, 40)
+        self.image.clip_composite_draw(
+        frame_index * self.frame_width, 0, self.frame_width, self.frame_height, draw_angle,'', screen_x, screen_y, self.drill_size, self.drill_size)
 
 
 
@@ -67,9 +63,3 @@ class Drill:
 #             self.drill_size, self.drill_size
 #         )
 #
-#         # # ===== 타일 파괴 추가 =====
-#         # try:
-#         #     from game_mode_1 import planet
-#         #     planet.destroy(x, y, radius=1)
-#         # except:
-#         #     pass

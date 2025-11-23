@@ -2,9 +2,11 @@
 
 from pico2d import *
 import game_framework
+import game_world
 
 from planet1 import Planet
 from spaceship_game import Spaceship
+from background import Background
 
 # ======================================
 # 맵 로딩 함수
@@ -24,12 +26,13 @@ def load_map(path):
 # ======================================
 planet = None
 spaceship = None
+background = None
 
 def init():
     enter()
 
 def enter():
-    global planet, spaceship
+    global planet, spaceship, background
 
     # 1) 맵 로딩
     map_data = load_map('planet_map_test.txt')
@@ -39,10 +42,11 @@ def enter():
 
     # 3) Spaceship 생성
     spaceship = Spaceship(planet)
+    background = Background('images/level1_background.png', 60)
+    game_world.add_object(background, 0)
 
-
-def exit():
-    pass
+def finish():
+    game_world.clear()
 
 
 def handle_events():
@@ -59,12 +63,13 @@ def handle_events():
 
 
 def update():
+    game_world.update()
     spaceship.update()
 
 
 def draw():
     clear_canvas()
-
+    game_world.render()
     # 먼저 Planet을 camera 기준으로 그린다
     planet.draw(spaceship.camera_x, spaceship.camera_y)
 

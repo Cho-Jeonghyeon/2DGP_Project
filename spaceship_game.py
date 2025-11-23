@@ -122,6 +122,7 @@ class Spaceship:
     # Draw
     # ===============================================
     def draw(self):
+
         # ===== world → screen 변환 =====
         screen_x = self.world_x - self.camera_x
         screen_y = self.world_y - self.camera_y
@@ -135,10 +136,21 @@ class Spaceship:
         drill_world_x = self.world_x + math.cos(self.angle) * self.drill_offset
         drill_world_y = self.world_y + math.sin(self.angle) * self.drill_offset
 
+        # ★ 추가 오프셋 (왼쪽 -3, 아래 -3)
+        off_x = -7
+        off_y = 3
+
+        # ★ 회전 보정
+        rot_off_x = off_x * math.cos(self.angle) - off_y * math.sin(self.angle)
+        rot_off_y = off_x * math.sin(self.angle) + off_y * math.cos(self.angle)
+
+        drill_world_x += rot_off_x
+        drill_world_y += rot_off_y
+
         drill_screen_x = drill_world_x - self.camera_x
         drill_screen_y = drill_world_y - self.camera_y
 
-        self.drill.draw(drill_screen_x, drill_screen_y, self.angle)
+        self.drill.draw(drill_screen_x, drill_screen_y, self.angle- math.pi/2)
 
 
 
