@@ -81,9 +81,11 @@ class Spaceship:
             # bounce = 1500 * frame_time
             # self.world_x -= math.cos(self.angle) * bounce
             # self.world_y -= math.sin(self.angle) * bounce
+            self.drill.hit_timer = 0.08
             bounce = 600 * frame_time + 20
             self.world_x -= math.cos(self.angle) * bounce
             self.world_y -= math.sin(self.angle) * bounce
+
             return
         # if hit:
         #     bounce = 1500 * frame_time
