@@ -27,7 +27,9 @@ def load_map(path):
 planet = None
 spaceship = None
 background = None
-ui_rock = None
+ui_rock1 = None
+ui_rock2 = None
+ui_rock3 = None
 ui_rock_penel = None
 ui_font = None
 
@@ -35,7 +37,7 @@ def init():
     enter()
 
 def enter():
-    global planet, spaceship, background, ui_rock, ui_rock_penel, ui_font
+    global planet, spaceship, background, ui_rock1, ui_rock_penel, ui_font, ui_rock2, ui_rock3
 
     # 1) 맵 로딩
     map_data = load_map('planet_map_test.txt')
@@ -48,9 +50,12 @@ def enter():
     background = Background('images/level1_background.png', 60)
     game_world.add_object(background, 0)
 
-    ui_rock = load_image('images/rock_ui2_1.png')
+    ui_rock1 = load_image('images/rock_ui2_1.png')
+    ui_rock2 = load_image('images/rock_ui2_2.png')
+    ui_rock3 = load_image('images/rock_ui2_3.png')
+
     ui_rock_penel = load_image('images/rock_ui.png')
-    ui_font = load_font('fonts/MaplestoryBold.ttf', 18)
+    ui_font = load_font('fonts/MaplestoryBold.ttf', 15)
 
 def finish():
     game_world.clear()
@@ -88,17 +93,19 @@ def draw():
 
 def draw_ui(plant):
     num = plant.rock_count
-    base_x = SCREEN_W - 170  # 패널 left
-    base_y = SCREEN_H - 250  # 패널 center
-    ui_rock_penel.draw(base_x, base_y, 250,160)
+    base_x = SCREEN_W - 120  # 패널 left
+    base_y = SCREEN_H - 200  # 패널 center
+    ui_rock_penel.draw(base_x, base_y, 130,120)
 
-    ui_rock_locate_x = base_x + 140
-    ui_rock_locate_y = base_y + 60
+    ui_rock_locate_x = base_x + 85
+    ui_rock_locate_y = base_y + 40
     slot_gap = 40
 
-    for i in range (4):
-        ui_rock.draw(ui_rock_locate_x, ui_rock_locate_y-i*slot_gap, 40,40)
+    ui_rock_images = [ui_rock1, ui_rock2, ui_rock3]
+    for i in range (3):
+        img = ui_rock_images[i]
+        img.draw(ui_rock_locate_x, ui_rock_locate_y-i*slot_gap, 40,40)
 
-    names = ["Stone", "Iron", "Ruby", "Crystal"]
+    names = ["Stone", "Iron", "Ruby"]
     for i, name in enumerate(names, start=1):
-        ui_font.draw(base_x - 80, ui_rock_locate_y - (i - 1) * slot_gap, f"{name} : {num[i]}",(0,0,0))
+        ui_font.draw(base_x - 40, ui_rock_locate_y - (i - 1) * slot_gap, f"{name} : {num[i]}",(0,0,0))
