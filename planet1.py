@@ -75,7 +75,7 @@ class Planet:
                         # HP가 0 이하이면 제거
                         if self.tile_hp[r][c] <= 0:
                             self.rock_count[tile] += 1
-                            print(self.rock_count[tile])
+                            print(self.rock_count)
                             self.map[r][c] = 0
                             self.tile_hp[r][c] = 0
         return hit
