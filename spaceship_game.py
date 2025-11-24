@@ -30,8 +30,8 @@ class Spaceship:
 
         self.image = load_image('images/spaceship_level_1.png')
 
-        self.hp = 300
-        self.max_hp = 300
+        self.hp = 400
+        self.max_hp = 400
 
     def get_bb(self):
         screen_x = self.world_x - self.camera_x

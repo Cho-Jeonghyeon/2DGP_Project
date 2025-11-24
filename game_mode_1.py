@@ -27,14 +27,19 @@ def load_map(path):
 planet = None
 spaceship = None
 background = None
+
 ui_rock1 = None
 ui_rock2 = None
 ui_rock3 = None
 ui_rock_penel = None
 ui_font = None
+
 ui_hp_exp = None
 ui_level = None
 
+hp_left = None
+hp_mid = None
+hp_right = None
 def init():
     enter()
 
@@ -42,7 +47,7 @@ def enter():
     global planet, spaceship, background
     global ui_rock1, ui_rock_penel, ui_font, ui_rock2, ui_rock3
     global ui_level, ui_hp_exp
-
+    global hp_left, hp_mid, hp_right
 
     # 1) 맵 로딩
     map_data = load_map('planet_map_test.txt')
@@ -55,15 +60,19 @@ def enter():
     background = Background('images/level1_background.png', 60)
     game_world.add_object(background, 0)
 
-    ui_rock1 = load_image('images/rock_ui2_1.png')
-    ui_rock2 = load_image('images/rock_ui2_2.png')
-    ui_rock3 = load_image('images/rock_ui2_3.png')
+    ui_rock1 = load_image('UI/rock_ui2_1.png')
+    ui_rock2 = load_image('UI/rock_ui2_2.png')
+    ui_rock3 = load_image('UI/rock_ui2_3.png')
 
-    ui_rock_penel = load_image('images/rock_ui.png')
+    ui_rock_penel = load_image('UI/rock_ui.png')
     ui_font = load_font('fonts/MaplestoryBold.ttf', 15)
 
-    ui_hp_exp = load_image('images/hp_exp_ui.png')
-    ui_level = load_image('images/level_ui.png')
+    ui_hp_exp = load_image('UI/hp_exp_ui.png')
+    ui_level = load_image('UI/level_ui.png')
+
+    hp_left = load_image('UI/ui_hp_left.png')
+    hp_mid = load_image('UI/ui_hp_mid.png')
+    hp_right = load_image('UI/ui_hp_right.png')
 
 def finish():
     game_world.clear()
@@ -96,7 +105,8 @@ def draw():
     # 그 뒤 Spaceship을 화면(screen) 기준으로 그린다
     spaceship.draw()
     draw_rock_ui(planet)
-    draw_hp_exp_level_ui(spaceship)
+    draw_hp_exp_level_ui()
+    draw_hp_bar(spaceship)
     update_canvas()
 
 
@@ -120,7 +130,7 @@ def draw_rock_ui(plant):
         ui_font.draw(base_x - 40, ui_rock_locate_y - (i - 1) * slot_gap, f"{name} : {num[i]}",(0,0,0))
 
 
-def draw_hp_exp_level_ui(spaceship):
+def draw_hp_exp_level_ui():
 
     base_x = 520
     base_y = 945
@@ -128,18 +138,26 @@ def draw_hp_exp_level_ui(spaceship):
     ui_hp_exp.draw(base_x, base_y,1000,70)
     ui_level.draw(base_x - 450, base_y - 60)
 
-    # HP 바 (게이지)
+def draw_hp_bar(spaceship):
+    # HP 퍼센트
     hp_ratio = spaceship.hp / spaceship.max_hp
     hp_ratio = max(0, min(1, hp_ratio))
 
-    # HP 게이지 너비
-    full_width = 850  # 배경 안쪽 게이지 공간
-    bar_width = full_width * hp_ratio
+    # 바 위치 (상단)
+    base_x = 520
+    base_y = 961
 
-    # HP 게이지 좌표 (UI 안쪽에 맞게)
-    left = base_x - 425  # UI 가운데 기준 + offset
-    bottom = base_y - 15
-    right = left + bar_width
-    top = base_y + 15
+    # 바의 전체 길이에서 좌우 끝을 빼고, 가운데 확장 부분 계산
+    full_width = 990   # 원하는 전체 체력바 길이
+    mid_width = int((full_width - hp_left.w - hp_right.w) * hp_ratio)
 
-    pico2d.draw_rectangle(left, bottom, right, top)
+    # HP 바의 실제 시작점
+    left_x  = base_x - full_width // 2
+    mid_x   = left_x + hp_left.w
+    right_x = mid_x  + mid_width-2
+
+    # 그리기
+    hp_left.draw(left_x + hp_left.w//2, base_y)
+    hp_mid.draw(mid_x + mid_width//2, base_y, mid_width, hp_mid.h)
+    hp_right.draw(right_x + hp_right.w//2, base_y)
+

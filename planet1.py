@@ -42,17 +42,17 @@ class Planet:
 
 
     def get_tile_hp(self, tile):
-        if tile == 1: return 20     # dirt
-        if tile == 2: return 40     # stone
-        if tile == 3: return 60     # iron
-        if tile == 4: return 100    # cobalt
+        if tile == 1: return 10     # dirt
+        if tile == 2: return 20     # stone
+        if tile == 3: return 30     # iron
+        if tile == 4: return 40    # cobalt
         return 0
 
     def get_tile_damage(self, tile):
-        if tile == 1: return 2
-        if tile == 2: return 4
-        if tile == 3: return 6
-        if tile == 4: return 8
+        if tile == 1: return 1
+        if tile == 2: return 2
+        if tile == 3: return 3
+        if tile == 4: return 3
         return 0
 
     # ============================================
