@@ -29,15 +29,15 @@ class Spaceship:
         self.camera_y = self.world_y - SCREEN_H // 2
 
         self.image = load_image('images/spaceship_level_1.png')
-        # self.collision_lock = 0.0  # 남은 lock 시간
-        # self.collision_lock_duration = 0.10  # 0.1초 동안 충돌 무효
 
-        self.hp = 100
+        self.hp = 300
+        self.max_hp = 300
 
     def get_bb(self):
         screen_x = self.world_x - self.camera_x
         screen_y = self.world_y - self.camera_y
         return screen_x-30, screen_y-30, screen_x+30, screen_y+30
+
     # ===============================================
     # Input
     # ===============================================
@@ -51,6 +51,34 @@ class Spaceship:
         elif event.type == SDL_KEYUP:
             if event.key in (SDLK_RIGHT, SDLK_LEFT): self.dx = 0
             if event.key in (SDLK_UP, SDLK_DOWN):     self.dy = 0
+
+    # def check_collision_with_tiles(self):
+    #     # 우주선 bounding box (screen 기준)
+    #     left, bottom, right, top = self.get_bb()
+    #
+    #     # 우주선 bounding box → world 좌표로 바꾸기
+    #     world_left = left + self.camera_x
+    #     world_bottom = bottom + self.camera_y
+    #     world_right = right + self.camera_x
+    #     world_top = top + self.camera_y
+    #
+    #     # 우주선이 걸쳐 있는 타일 범위
+    #     tile_left = int(world_left // TILE)
+    #     tile_right = int(world_right // TILE)
+    #     tile_bottom = int(world_bottom // TILE)
+    #     tile_top = int(world_top // TILE)
+    #
+    #     damage_sum = 0
+    #
+    #     for r in range(tile_bottom, tile_top + 1):
+    #         for c in range(tile_left, tile_right + 1):
+    #             if 0 <= r < self.planet.MAP_H and 0 <= c < self.planet.MAP_W:
+    #                 tile = self.planet.map[r][c]
+    #                 if tile != 0:  # 타일이 존재함
+    #                     # 데미지 누적
+    #                     damage_sum += self.planet.tile_damage[r][c]
+    #
+    #     return damage_sum
 
     # ===============================================
     # Update
@@ -77,13 +105,16 @@ class Spaceship:
         # ---------------------
         # 3) 타일 파괴 (world 좌표)
         # ---------------------
-        hit = self.planet.destroy(drill_world_x, drill_world_y,
+        hit, tile_damage = self.planet.destroy(drill_world_x, drill_world_y,
                                   damage=self.drill.damage, radius=1)
+
 
         # ---------------------
         # 4) bounce(반동)
         # ---------------------
         if hit:
+            self.hp -= tile_damage
+            print(self.hp)
             # bounce = 1500 * frame_time
             # self.world_x -= math.cos(self.angle) * bounce
             # self.world_y -= math.sin(self.angle) * bounce
@@ -92,7 +123,7 @@ class Spaceship:
             self.world_x -= math.cos(self.angle) * bounce
             self.world_y -= math.sin(self.angle) * bounce
 
-            return
+
         # if hit:
         #     bounce = 1500 * frame_time
         #     self.world_x -= math.cos(self.angle) * bounce
@@ -126,7 +157,7 @@ class Spaceship:
         # ---------------------
         self.drill.update()
 
-    # ===============================================
+    # # ===============================================
     # Draw
     # ===============================================
     def draw(self):
@@ -160,3 +191,4 @@ class Spaceship:
 
         self.drill.draw(drill_screen_x, drill_screen_y, self.angle- math.pi/2)
         draw_rectangle(*self.get_bb())
+

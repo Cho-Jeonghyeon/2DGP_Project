@@ -2,9 +2,6 @@
 from pico2d import load_image, draw_rectangle
 import math
 
-from spaceship import Spaceship
-from spaceship_game import Spaceship
-
 TILE = 32
 SCREEN_W = 1200
 SCREEN_H = 1000
@@ -31,25 +28,27 @@ class Planet:
 
         # 각 타일 HP
         self.tile_hp = [
-            [self.tile_hp(tile) for tile in row]
+            [self.get_tile_hp(tile) for tile in row]
             for row in self.map
         ]
 
         self.rock_count = {1:0,2:0,3:0,4:0}
 
         self.tile_damage = [
-            [self.tile_damage(tile) for tile in row]
+            [self.get_tile_damage(tile) for tile in row]
             for row in self.map
         ]
 
-    def tile_hp(self, tile):
+
+
+    def get_tile_hp(self, tile):
         if tile == 1: return 20     # dirt
         if tile == 2: return 40     # stone
         if tile == 3: return 60     # iron
         if tile == 4: return 100    # cobalt
         return 0
 
-    def tile_damage(self, tile):
+    def get_tile_damage(self, tile):
         if tile == 1: return 2
         if tile == 2: return 4
         if tile == 3: return 6
@@ -59,7 +58,7 @@ class Planet:
     # ============================================
     # destroy : world 좌표 기준 파괴
     # ============================================
-    def destroy(self, world_x, world_y, damage=1, radius=1):
+    def destroy(self, world_x, world_y, damage, radius=1):
         """
         world_x, world_y : 타일 파괴 기준이 되는 '월드 좌표'
         damage : 드릴 데미지
@@ -69,6 +68,7 @@ class Planet:
         tile_r = int(world_y // TILE)
 
         hit = False
+        tile_damagetoship = 0
 
         for dy in range(-radius, radius + 1):
             for dx in range(-radius, radius + 1):
@@ -86,16 +86,19 @@ class Planet:
                         # 광물 HP 감소
                         self.tile_hp[r][c] -= damage
                         # 우주선 HP 감소
-                        spaceship.hp -= self.tile_damage[r][c]
+
                         hit = True
 
+                        tile_damagetoship = self.tile_damage[r][c]
                         # HP가 0 이하이면 제거
                         if self.tile_hp[r][c] <= 0:
                             self.rock_count[tile] += 1
                             print(self.rock_count)
                             self.map[r][c] = 0
                             self.tile_hp[r][c] = 0
-        return hit
+                            self.tile_damage[r][c] = 0
+
+        return hit, tile_damagetoship
 
     # ============================================
     # draw : world → screen 변환해서 그리기

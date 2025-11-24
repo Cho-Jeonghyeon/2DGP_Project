@@ -32,12 +32,17 @@ ui_rock2 = None
 ui_rock3 = None
 ui_rock_penel = None
 ui_font = None
+ui_hp_exp = None
+ui_level = None
 
 def init():
     enter()
 
 def enter():
-    global planet, spaceship, background, ui_rock1, ui_rock_penel, ui_font, ui_rock2, ui_rock3
+    global planet, spaceship, background
+    global ui_rock1, ui_rock_penel, ui_font, ui_rock2, ui_rock3
+    global ui_level, ui_hp_exp
+
 
     # 1) 맵 로딩
     map_data = load_map('planet_map_test.txt')
@@ -56,6 +61,9 @@ def enter():
 
     ui_rock_penel = load_image('images/rock_ui.png')
     ui_font = load_font('fonts/MaplestoryBold.ttf', 15)
+
+    ui_hp_exp = load_image('images/hp_exp_ui.png')
+    ui_level = load_image('images/level_ui.png')
 
 def finish():
     game_world.clear()
@@ -87,11 +95,12 @@ def draw():
 
     # 그 뒤 Spaceship을 화면(screen) 기준으로 그린다
     spaceship.draw()
-    draw_ui(planet)
+    draw_rock_ui(planet)
+    draw_hp_exp_level_ui(spaceship)
     update_canvas()
 
 
-def draw_ui(plant):
+def draw_rock_ui(plant):
     num = plant.rock_count
     base_x = SCREEN_W - 120  # 패널 left
     base_y = SCREEN_H - 200  # 패널 center
