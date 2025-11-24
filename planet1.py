@@ -2,6 +2,9 @@
 from pico2d import load_image, draw_rectangle
 import math
 
+from spaceship import Spaceship
+from spaceship_game import Spaceship
+
 TILE = 32
 SCREEN_W = 1200
 SCREEN_H = 1000
@@ -34,11 +37,23 @@ class Planet:
 
         self.rock_count = {1:0,2:0,3:0,4:0}
 
+        self.tile_damage = [
+            [self.tile_damage(tile) for tile in row]
+            for row in self.map
+        ]
+
     def tile_hp(self, tile):
         if tile == 1: return 20     # dirt
         if tile == 2: return 40     # stone
         if tile == 3: return 60     # iron
         if tile == 4: return 100    # cobalt
+        return 0
+
+    def tile_damage(self, tile):
+        if tile == 1: return 2
+        if tile == 2: return 4
+        if tile == 3: return 6
+        if tile == 4: return 8
         return 0
 
     # ============================================
@@ -68,8 +83,10 @@ class Planet:
                 if 0 <= r < self.MAP_H and 0 <= c < self.MAP_W:
                     tile = self.map[r][c]
                     if tile != 0:
-                        # HP 감소
+                        # 광물 HP 감소
                         self.tile_hp[r][c] -= damage
+                        # 우주선 HP 감소
+                        spaceship.hp -= self.tile_damage[r][c]
                         hit = True
 
                         # HP가 0 이하이면 제거
