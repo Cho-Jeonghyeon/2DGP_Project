@@ -118,3 +118,28 @@ def draw_rock_ui(plant):
     names = ["Stone", "Iron", "Ruby"]
     for i, name in enumerate(names, start=1):
         ui_font.draw(base_x - 40, ui_rock_locate_y - (i - 1) * slot_gap, f"{name} : {num[i]}",(0,0,0))
+
+
+def draw_hp_exp_level_ui(spaceship):
+
+    base_x = 520
+    base_y = 945
+
+    ui_hp_exp.draw(base_x, base_y,1000,70)
+    ui_level.draw(base_x - 450, base_y - 60)
+
+    # HP 바 (게이지)
+    hp_ratio = spaceship.hp / spaceship.max_hp
+    hp_ratio = max(0, min(1, hp_ratio))
+
+    # HP 게이지 너비
+    full_width = 850  # 배경 안쪽 게이지 공간
+    bar_width = full_width * hp_ratio
+
+    # HP 게이지 좌표 (UI 안쪽에 맞게)
+    left = base_x - 425  # UI 가운데 기준 + offset
+    bottom = base_y - 15
+    right = left + bar_width
+    top = base_y + 15
+
+    pico2d.draw_rectangle(left, bottom, right, top)
