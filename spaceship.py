@@ -145,6 +145,7 @@ class Idle:
 
     def draw(self):
         # 이미지 그리기
+        draw_rectangle(*self.get_bb())
         self.spaceship.image.draw(self.spaceship.x, self.spaceship.y,80,80)
 
 class Move:
@@ -197,4 +198,5 @@ class Move:
             self.spaceship.IDLE.enter()
 
     def draw(self):
+        draw_rectangle(*self.get_bb())
         self.spaceship.image.draw(self.spaceship.x, self.spaceship.y,80,80)

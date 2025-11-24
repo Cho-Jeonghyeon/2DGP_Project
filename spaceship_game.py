@@ -29,9 +29,15 @@ class Spaceship:
         self.camera_y = self.world_y - SCREEN_H // 2
 
         self.image = load_image('images/spaceship_level_1.png')
-        self.collision_lock = 0.0  # 남은 lock 시간
-        self.collision_lock_duration = 0.10  # 0.1초 동안 충돌 무효
+        # self.collision_lock = 0.0  # 남은 lock 시간
+        # self.collision_lock_duration = 0.10  # 0.1초 동안 충돌 무효
 
+        self.hp = 100
+
+    def get_bb(self):
+        screen_x = self.world_x - self.camera_x
+        screen_y = self.world_y - self.camera_y
+        return screen_x-30, screen_y-30, screen_x+30, screen_y+30
     # ===============================================
     # Input
     # ===============================================
@@ -153,97 +159,4 @@ class Spaceship:
         drill_screen_y = drill_world_y - self.camera_y
 
         self.drill.draw(drill_screen_x, drill_screen_y, self.angle- math.pi/2)
-
-
-
-# from pico2d import *
-# import math
-# import game_framework
-# from drill import Drill
-#
-# class SpaceshipGame:
-#     def __init__(self, planet):
-#         self.x, self.y = 600, 900
-#         self.speed = 150
-#         self.image = load_image('images/spaceship_level_1.png')
-#
-#         self.dx, self.dy = 0, 0
-#         self.angle = 0
-#
-#         self.drill = Drill()
-#         self.drill_offset = 50
-#
-#         self.planet = planet
-#
-#     def update(self):
-#         # 좌우 이동
-#         self.x += self.dx * self.speed * game_framework.frame_time
-#         self.x = clamp(50, self.x, 1150)
-#
-#         scroll_speed = self.dy * self.speed * game_framework.frame_time
-#         target_y = 400
-#
-#         # 타일맵 기반 스크롤
-#         max_scroll = self.planet.total_height - 1000
-#
-#         # === 타일 파괴 ===
-#         drill_x = self.x + math.cos(self.angle) * self.drill_offset
-#         drill_y = self.y + math.sin(self.angle) * self.drill_offset
-#
-#         hit = self.planet.destroy(drill_x, drill_y, radius=1, damage=self.drill.damage)
-#         print(hit)
-#         if hit:
-#             bounce = 30 * game_framework.frame_time
-#             self.x -= math.cos(self.angle) * bounce
-#             self.y -= math.sin(self.angle) * bounce
-#         else:
-#
-#             if (self.dy > 0 and self.planet.scroll_y < max_scroll) or \
-#                (self.dy < 0 and self.planet.scroll_y > 0):
-#
-#                 self.planet.scroll_y += scroll_speed
-#                 self.planet.scroll_y = clamp(0, self.planet.scroll_y, max_scroll)
-#
-#                 lerp = 0.25 * game_framework.frame_time
-#                 self.y = self.y * (1 - lerp) + target_y * lerp
-#
-#             else:
-#                 if self.dx == 0 and self.dy == 0:
-#                     fall_speed = 15* game_framework.frame_time
-#                     fall_speed2 = 25* game_framework.frame_time
-#
-#                     self.y -= fall_speed
-#                     self.planet.scroll_y -= fall_speed2
-#
-#                     self.y = clamp(70, self.y, 950)
-#                     self.planet.scroll_y = clamp(0, self.planet.scroll_y, max_scroll)
-#
-#                 else:
-#                     self.y += self.dy * self.speed * game_framework.frame_time
-#                     self.y = clamp(70, self.y, 950)
-#
-#             if self.dx != 0 or self.dy != 0:
-#                 self.angle = math.atan2(self.dy, self.dx)
-#
-#         self.drill.update()
-#
-#     def draw(self):
-#         draw_angle = self.angle - math.pi / 2
-#         self.image.rotate_draw(draw_angle, self.x, self.y, 70, 70)
-#
-#         drill_x = self.x + math.cos(self.angle) * self.drill_offset
-#         drill_y = self.y + math.sin(self.angle) * self.drill_offset
-#
-#         self.drill.draw(drill_x, drill_y, draw_angle)
-#
-#
-#     def handle_events(self, event):
-#         if event.type == SDL_KEYDOWN:
-#             if event.key == SDLK_RIGHT: self.dx = 1
-#             elif event.key == SDLK_LEFT: self.dx = -1
-#             elif event.key == SDLK_UP: self.dy = 1
-#             elif event.key == SDLK_DOWN: self.dy = -1
-#
-#         elif event.type == SDL_KEYUP:
-#             if event.key in (SDLK_RIGHT, SDLK_LEFT): self.dx = 0
-#             if event.key in (SDLK_UP, SDLK_DOWN): self.dy = 0
+        draw_rectangle(*self.get_bb())

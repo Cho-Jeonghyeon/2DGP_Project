@@ -28,13 +28,13 @@ class Planet:
 
         # 각 타일 HP
         self.tile_hp = [
-            [self.get_initial_hp(tile) for tile in row]
+            [self.tile_hp(tile) for tile in row]
             for row in self.map
         ]
 
         self.rock_count = {1:0,2:0,3:0,4:0}
 
-    def get_initial_hp(self, tile):
+    def tile_hp(self, tile):
         if tile == 1: return 20     # dirt
         if tile == 2: return 40     # stone
         if tile == 3: return 60     # iron
