@@ -65,7 +65,7 @@ def enter():
     ui_rock3 = load_image('UI/rock_ui2_3.png')
 
     ui_rock_penel = load_image('UI/rock_ui.png')
-    ui_font = load_font('fonts/MaplestoryBold.ttf', 15)
+    ui_font = load_font('fonts/MaplestoryBold.ttf', size=15)
 
     ui_hp_exp = load_image('UI/hp_exp_ui.png')
     ui_level = load_image('UI/level_ui.png')
@@ -138,6 +138,7 @@ def draw_hp_exp_level_ui():
     ui_hp_exp.draw(base_x, base_y,1000,70)
     ui_level.draw(base_x - 450, base_y - 60)
 
+
 def draw_hp_bar(spaceship):
     # HP 퍼센트
     hp_ratio = spaceship.hp / spaceship.max_hp
@@ -161,3 +162,4 @@ def draw_hp_bar(spaceship):
     hp_mid.draw(mid_x + mid_width//2, base_y, mid_width, hp_mid.h)
     hp_right.draw(right_x + hp_right.w//2, base_y)
 
+    ui_font.draw(520, 960, f'{spaceship.hp}  /  {spaceship.max_hp}', (0,0,0))
