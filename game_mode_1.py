@@ -40,6 +40,11 @@ ui_level = None
 hp_left = None
 hp_mid = None
 hp_right = None
+
+exp_left = None
+exp_mid = None
+exp_right = None
+
 def init():
     enter()
 
@@ -48,6 +53,7 @@ def enter():
     global ui_rock1, ui_rock_penel, ui_font, ui_rock2, ui_rock3
     global ui_level, ui_hp_exp
     global hp_left, hp_mid, hp_right
+    global exp_left, exp_mid, exp_right
 
     # 1) 맵 로딩
     map_data = load_map('planet_map_test.txt')
@@ -74,6 +80,10 @@ def enter():
     hp_mid = load_image('UI/ui_hp_mid.png')
     hp_right = load_image('UI/ui_hp_right.png')
 
+    exp_left = load_image('UI/ui_exp_left.png')
+    exp_mid = load_image('UI/ui_exp_mid.png')
+    exp_right = load_image('UI/ui_exp_right.png')
+
 def finish():
     game_world.clear()
 
@@ -98,6 +108,7 @@ def update():
 
 def draw():
     clear_canvas()
+
     game_world.render()
     # 먼저 Planet을 camera 기준으로 그린다
     planet.draw(spaceship.camera_x, spaceship.camera_y)
@@ -107,6 +118,8 @@ def draw():
     draw_rock_ui(planet)
     draw_hp_exp_level_ui()
     draw_hp_bar(spaceship)
+    draw_exp_bar(spaceship)
+
     update_canvas()
 
 
@@ -148,8 +161,8 @@ def draw_hp_bar(spaceship):
     base_x = 520
     base_y = 961
 
-    # 바의 전체 길이에서 좌우 끝을 빼고, 가운데 확장 부분 계산
-    full_width = 990   # 원하는 전체 체력바 길이
+
+    full_width = 990   #전체 체력바 길이
     mid_width = int((full_width - hp_left.w - hp_right.w) * hp_ratio)
 
     # HP 바의 실제 시작점
@@ -163,3 +176,28 @@ def draw_hp_bar(spaceship):
     hp_right.draw(right_x + hp_right.w//2, base_y)
 
     ui_font.draw(520, 960, f'{spaceship.hp}  /  {spaceship.max_hp}', (0,0,0))
+
+def draw_exp_bar(spaceship):
+
+    # exp 퍼센트
+    exp_ratio = spaceship.exp / spaceship.max_exp
+    exp_ratio = max(0, min(1, exp_ratio))
+
+    # 바 위치 (상단)
+    base_x = 520
+    base_y = 931
+
+    full_width = 990  # 전체 체력바 길이
+    mid_width = int((full_width - exp_left.w - exp_right.w) * exp_ratio)
+
+    # exp 바의 실제 시작점
+    left_x = base_x - full_width // 2
+    mid_x = left_x + hp_left.w
+    right_x = mid_x + mid_width - 2
+
+    # 그리기
+    exp_left.draw(left_x + exp_left.w // 2, base_y)
+    exp_mid.draw(mid_x + mid_width // 2, base_y, mid_width, exp_mid.h)
+    exp_right.draw(right_x + exp_right.w // 2, base_y)
+
+    ui_font.draw(520, 930, f'{spaceship.exp}  /  {spaceship.max_exp}', (0, 0, 0))

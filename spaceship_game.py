@@ -33,6 +33,10 @@ class Spaceship:
         self.hp = 400
         self.max_hp = 400
 
+        self.exp = 0
+        self.max_exp = 600
+        self.level = 1
+
     def get_bb(self):
         screen_x = self.world_x - self.camera_x
         screen_y = self.world_y - self.camera_y
@@ -105,7 +109,7 @@ class Spaceship:
         # ---------------------
         # 3) 타일 파괴 (world 좌표)
         # ---------------------
-        hit, tile_damage = self.planet.destroy(drill_world_x, drill_world_y,
+        hit, tile_damage, exp = self.planet.destroy(drill_world_x, drill_world_y,
                                   damage=self.drill.damage, radius=1)
 
 
@@ -123,12 +127,8 @@ class Spaceship:
             self.world_x -= math.cos(self.angle) * bounce
             self.world_y -= math.sin(self.angle) * bounce
 
-
-        # if hit:
-        #     bounce = 1500 * frame_time
-        #     self.world_x -= math.cos(self.angle) * bounce
-        #     self.world_y -= math.sin(self.angle) * bounce
-        #     return
+        if exp>0:
+            self.exp += exp
 
 
         # ---------------------

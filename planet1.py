@@ -39,6 +39,10 @@ class Planet:
             for row in self.map
         ]
 
+        self.tile_exp = [
+            [self.get_tile_exp(tile) for tile in row]
+            for row in self.map
+        ]
 
 
     def get_tile_hp(self, tile):
@@ -55,6 +59,13 @@ class Planet:
         if tile == 4: return 3
         return 0
 
+    def get_tile_exp(self, tile):
+        if tile == 1: return 5
+        if tile == 2: return 10
+        if tile == 3: return 15
+        if tile == 4: return 15
+        return 0
+
     # ============================================
     # destroy : world 좌표 기준 파괴
     # ============================================
@@ -69,7 +80,7 @@ class Planet:
 
         hit = False
         tile_damagetoship = 0
-
+        exp_to_ship = 0
         for dy in range(-radius, radius + 1):
             for dx in range(-radius, radius + 1):
 
@@ -92,13 +103,14 @@ class Planet:
                         tile_damagetoship = self.tile_damage[r][c]
                         # HP가 0 이하이면 제거
                         if self.tile_hp[r][c] <= 0:
+                            exp_to_ship = self.tile_exp[r][c]
                             self.rock_count[tile] += 1
                             print(self.rock_count)
                             self.map[r][c] = 0
                             self.tile_hp[r][c] = 0
                             self.tile_damage[r][c] = 0
 
-        return hit, tile_damagetoship
+        return hit, tile_damagetoship, exp_to_ship
 
     # ============================================
     # draw : world → screen 변환해서 그리기
