@@ -33,6 +33,7 @@ ui_rock2 = None
 ui_rock3 = None
 ui_rock_penel = None
 ui_font = None
+ui_font2 = None
 
 ui_hp_exp = None
 ui_level = None
@@ -50,7 +51,7 @@ def init():
 
 def enter():
     global planet, spaceship, background
-    global ui_rock1, ui_rock_penel, ui_font, ui_rock2, ui_rock3
+    global ui_rock1, ui_rock_penel, ui_font, ui_rock2, ui_rock3, ui_font2
     global ui_level, ui_hp_exp
     global hp_left, hp_mid, hp_right
     global exp_left, exp_mid, exp_right
@@ -72,6 +73,7 @@ def enter():
 
     ui_rock_penel = load_image('UI/rock_ui.png')
     ui_font = load_font('fonts/MaplestoryBold.ttf', size=15)
+    ui_font2 = load_font('fonts/MaplestoryBold.ttf', size=23)
 
     ui_hp_exp = load_image('UI/hp_exp_ui.png')
     ui_level = load_image('UI/level_ui.png')
@@ -116,7 +118,7 @@ def draw():
     # 그 뒤 Spaceship을 화면(screen) 기준으로 그린다
     spaceship.draw()
     draw_rock_ui(planet)
-    draw_hp_exp_level_ui()
+    draw_hp_exp_level_ui(spaceship)
     draw_hp_bar(spaceship)
     draw_exp_bar(spaceship)
 
@@ -143,13 +145,15 @@ def draw_rock_ui(plant):
         ui_font.draw(base_x - 40, ui_rock_locate_y - (i - 1) * slot_gap, f"{name} : {num[i]}",(0,0,0))
 
 
-def draw_hp_exp_level_ui():
+def draw_hp_exp_level_ui(spaceship):
 
     base_x = 520
     base_y = 945
 
     ui_hp_exp.draw(base_x, base_y,1000,70)
     ui_level.draw(base_x - 450, base_y - 60)
+
+    ui_font2.draw(base_x - 490, base_y - 60, f'LV : {spaceship.level}', (0, 0, 0))
 
 
 def draw_hp_bar(spaceship):

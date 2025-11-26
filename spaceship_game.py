@@ -34,7 +34,7 @@ class Spaceship:
         self.max_hp = 400
 
         self.exp = 0
-        self.max_exp = 600
+        self.max_exp = 500
         self.level = 1
 
     def get_bb(self):
@@ -56,33 +56,6 @@ class Spaceship:
             if event.key in (SDLK_RIGHT, SDLK_LEFT): self.dx = 0
             if event.key in (SDLK_UP, SDLK_DOWN):     self.dy = 0
 
-    # def check_collision_with_tiles(self):
-    #     # 우주선 bounding box (screen 기준)
-    #     left, bottom, right, top = self.get_bb()
-    #
-    #     # 우주선 bounding box → world 좌표로 바꾸기
-    #     world_left = left + self.camera_x
-    #     world_bottom = bottom + self.camera_y
-    #     world_right = right + self.camera_x
-    #     world_top = top + self.camera_y
-    #
-    #     # 우주선이 걸쳐 있는 타일 범위
-    #     tile_left = int(world_left // TILE)
-    #     tile_right = int(world_right // TILE)
-    #     tile_bottom = int(world_bottom // TILE)
-    #     tile_top = int(world_top // TILE)
-    #
-    #     damage_sum = 0
-    #
-    #     for r in range(tile_bottom, tile_top + 1):
-    #         for c in range(tile_left, tile_right + 1):
-    #             if 0 <= r < self.planet.MAP_H and 0 <= c < self.planet.MAP_W:
-    #                 tile = self.planet.map[r][c]
-    #                 if tile != 0:  # 타일이 존재함
-    #                     # 데미지 누적
-    #                     damage_sum += self.planet.tile_damage[r][c]
-    #
-    #     return damage_sum
 
     # ===============================================
     # Update
@@ -129,7 +102,12 @@ class Spaceship:
 
         if exp>0:
             self.exp += exp
-
+            if(self.exp >= self.max_exp):
+                self.exp = 0
+                self.level += 1
+                self.max_exp +=100
+                self.max_hp +=100
+                self.hp += 100
 
         # ---------------------
         # 5) Camera follow
