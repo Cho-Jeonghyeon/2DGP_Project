@@ -100,10 +100,10 @@ class Planet:
 
                         hit = True
 
-                        tile_damagetoship = self.tile_damage[r][c]
+                        tile_damagetoship += self.tile_damage[r][c]
                         # HP가 0 이하이면 제거
                         if self.tile_hp[r][c] <= 0:
-                            exp_to_ship = self.tile_exp[r][c]
+                            exp_to_ship += self.tile_exp[r][c]
                             self.rock_count[tile] += 1
                             print(self.rock_count)
                             self.map[r][c] = 0

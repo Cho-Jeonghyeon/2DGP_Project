@@ -1,8 +1,7 @@
-# game_mode_1.py
-
 from pico2d import *
 import game_framework
 import game_world
+import gameover_mode
 
 from planet1 import *
 from spaceship_game import Spaceship
@@ -106,7 +105,9 @@ def handle_events():
 def update():
     game_world.update()
     spaceship.update()
-
+    if spaceship.hp <= 0:
+        game_framework.change_mode(gameover_mode)
+        return
 
 def draw():
     clear_canvas()
