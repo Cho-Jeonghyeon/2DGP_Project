@@ -31,8 +31,8 @@ def down_up(event):
 
 
 class Spaceship:
-    def __init__(self):
-        self.x, self.y = 600,300
+    def __init__(self,x,y):
+        self.x, self.y = x,y
         self.frame = 0
         self.dx, self.dy = 0, 0
 

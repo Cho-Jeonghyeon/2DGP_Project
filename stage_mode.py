@@ -12,10 +12,12 @@ from spaceship import Spaceship
 
 background = None
 spaceship = None
+stage_x = None
+stage_y = None
 
 def init():
     global  background, spaceship
-
+    global stage_x, stage_y
     background = Background('images/main_background.png', speed=60)
     stage1 = Plant('images/ice_plant.png', 200, 800, 300, 300, game_mode_1)
     stage2 = Plant('images/lava_plant.png', 600, 800, 300, 300, game_mode_2)
@@ -23,8 +25,9 @@ def init():
 
     upgrade = UpgradeButton('images/upgrade.png', 425, 100, 250, 100, upgrade_mode)
     equipment = UpgradeButton('images/equip.png', 775, 100, 250, 100, upgrade_mode)
-
-    spaceship = Spaceship()
+    if stage_x is None and stage_y is None:
+        stage_x , stage_y= 600,400
+    spaceship = Spaceship(stage_x,stage_y)
 
     game_world.add_object(background, 0)
     game_world.add_objects([stage1, stage2, stage3, upgrade, equipment], 1)
@@ -34,6 +37,7 @@ def finish():
     game_world.clear()
 
 def update():
+    global stage_x, stage_y
     game_world.update()
 
     for obj in game_world.world[1]:
@@ -48,6 +52,8 @@ def update():
                 obj.is_glow = True
         elif isinstance(obj, UpgradeButton):
             if collide(spaceship, obj):
+                stage_x = spaceship.x
+                stage_y = spaceship.y
                 game_framework.push_mode(obj.stage_mode)
 
 def draw():

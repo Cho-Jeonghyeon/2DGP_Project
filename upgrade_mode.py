@@ -6,6 +6,7 @@ import stage_mode
 
 upgrade = None
 
+
 def init():
     global upgrade
     global ui_spaceship, ui_heart, ui_atk, ui_def, ui_line
@@ -39,7 +40,19 @@ def handle_events():
             game_framework.quit()
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.change_mode(stage_mode)
+            if stage_mode.spaceship and stage_mode.stage_x!= None:
+                print("디버깅")
+                ship = stage_mode.spaceship
+                ship.x = stage_mode.stage_x
+                ship.y = stage_mode.stage_y
+
+                ship.dx = 0
+                ship.dy = 0
+
+                ship.y += 40  # 충돌 방지 offset
+                ship.key_left = ship.key_right = False
+                ship.key_up = ship.key_down = False
+                game_framework.pop_mode()
 
         # elif event.type == SDL_MOUSEMOTION:
         #     mx, my = event.x, 1000 - event.y
