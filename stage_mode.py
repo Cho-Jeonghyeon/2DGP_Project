@@ -5,6 +5,7 @@ import game_mode_1
 import game_mode_2
 import game_mode_3
 import game_world
+import upgrade_mode
 from stage_button import *
 from background import Background
 from spaceship import Spaceship
@@ -20,8 +21,8 @@ def init():
     stage2 = Plant('images/lava_plant.png', 600, 800, 300, 300, game_mode_2)
     stage3 = Plant('images/gas_plant.png', 1000, 800, 300, 300, game_mode_3)
 
-    upgrade = Button('images/upgrade.png', 425, 100, 250, 100)
-    equipment = Button('images/equip.png', 775, 100, 250, 100)
+    upgrade = UpgradeButton('images/upgrade.png', 425, 100, 250, 100, upgrade_mode)
+    equipment = UpgradeButton('images/equip.png', 775, 100, 250, 100, upgrade_mode)
 
     spaceship = Spaceship()
 
@@ -45,6 +46,9 @@ def update():
                 game_framework.change_mode(obj.stage_mode)
             elif collide2(spaceship, obj):
                 obj.is_glow = True
+        elif isinstance(obj, UpgradeButton):
+            if collide(spaceship, obj):
+                game_framework.push_mode(obj.stage_mode)
 
 def draw():
     clear_canvas()

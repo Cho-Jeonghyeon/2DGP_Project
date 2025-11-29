@@ -43,7 +43,7 @@ class Plant:
         return [self.x-230, self.y-230, self.x+230, self.y+230]
 
 
-class Button:
+class StartButton:
     def __init__(self, image_path, x, y, w, h):
         self.image = load_image(image_path)
         self.x, self.y = x, y
@@ -52,7 +52,7 @@ class Button:
         self.is_hover = False  # 마우스가 위에 있을 때 True
         self.scale_speed = 5.0  # 크기 전환 속도 (값 높을수록 즉각적)
 
-    import math
+
     def draw(self):
         alpha = (math.sin(get_time() * 3) + 1) / 2  # 0~1 사이 변화
         self.image.opacify(0.5 + 0.5 * alpha)  # 밝기 깜빡임
@@ -66,3 +66,29 @@ class Button:
     def is_clicked(self, mx, my):
         return (self.x - self.w/2 <= mx <= self.x + self.w/2) and \
                (self.y - self.h/2 <= my <= self.y + self.h/2)
+
+
+class UpgradeButton:
+    def __init__(self, image_path, x, y, w, h, upgrade_mode):
+        self.image = load_image(image_path)
+        self.x, self.y = x, y
+        self.base_w, self.base_h = w, h
+        self.w, self.h = w, h
+        self.is_hover = False  # 마우스가 위에 있을 때 True
+        self.scale_speed = 5.0  # 크기 전환 속도 (값 높을수록 즉각적)
+        self.stage_mode = upgrade_mode
+
+    def draw(self):
+        alpha = (math.sin(get_time() * 3) + 1) / 2  # 0~1 사이 변화
+        self.image.opacify(0.5 + 0.5 * alpha)  # 밝기 깜빡임
+        self.image.draw(self.x, self.y, self.w, self.h)
+        draw_rectangle(*self.get_bb())
+
+    def update(self):
+        target_scale = 1.2 if self.is_hover else 1.0  # hover 시 20% 확대
+        self.w += (self.base_w * target_scale - self.w) * game_framework.frame_time * self.scale_speed
+        self.h += (self.base_h * target_scale - self.h) * game_framework.frame_time * self.scale_speed
+
+
+    def get_bb(self):
+        return [self.x - 125, self.y - 50, self.x + 125, self.y + 50]

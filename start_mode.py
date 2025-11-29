@@ -3,7 +3,7 @@ import game_framework
 import game_world
 import stage_mode
 from background import Background
-from stage_button import Button
+from stage_button import StartButton
 
 logo = None
 char = None
@@ -11,7 +11,7 @@ char = None
 def init():
     global gamestart, button, logo, char
     gamestart = Background('images/main_background.png')
-    button = Button('images/start.png', 600, 180, 300, 80)
+    button = StartButton('images/start.png', 600, 180, 300, 80)
     logo = load_image('images/plantcrusher.png')
     char = load_image('images/spaceship_level_3.png')
     game_world.add_object(gamestart, 0)
