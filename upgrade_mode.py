@@ -7,6 +7,7 @@ from game_mode_1 import ui_font
 
 upgrade = None
 SIZE = 30
+selected = None
 
 def init():
     global upgrade
@@ -24,31 +25,68 @@ def init():
     global SIZE
     ui_font = load_font('fonts/MaplestoryBold.ttf', SIZE)
 
+def clicked(px, py, cx, cy, w, h):
+    return (cx - w/2 < px < cx + w/2) and (cy - h/2 < py < cy + h/2)
+
 def finish():
     pass
 
 def update():
     pass
 
+# 아이콘 위치
+ship_pos = (350, 500)
+def_pos  = (350, 660)
+heart_pos = (230, 420)
+atk_pos = (470, 420)
+UI_SIZE = 160
+
 def draw():
 
     upgrade.draw(600, 500, 1100, 926)    # 중앙에 패널 띄우기
 
-    ship_x, ship_y = 350, 500
-    def_x, def_y = 350, 660
-    heart_x, heart_y = 230, 420
-    atk_x, atk_y = 470, 420
+    # --- 왼쪽 스킬 아이콘 ---
+    ui_spaceship.draw(*ship_pos, UI_SIZE, UI_SIZE)
+    ui_heart.draw(*heart_pos, UI_SIZE, UI_SIZE)
+    ui_atk.draw(*atk_pos, UI_SIZE, UI_SIZE)
+    ui_def.draw(*def_pos, UI_SIZE, UI_SIZE)
 
-    ui_spaceship.draw(ship_x, ship_y, 160, 160)
-    ui_heart.draw(heart_x, heart_y, 160, 160)
-    ui_atk.draw(atk_x, atk_y, 160, 160)
-    ui_def.draw(def_x, def_y, 160, 160)
+    # --- 오른쪽 패널 ---
     ui_inform.draw(850, 650, 450, 500)
-    ui_info.draw(850, 775, 165, 165)
+    ui_info.draw(850, 775, 175, 175)
 
-    ui_font.draw(780, 660, f'공격력  증가', (180, 255, 255))
-    ui_font.draw(795, 660-SIZE-20, f'0  ->  5', (180, 255, 255))
-    ui_font.draw(795, 660-SIZE*2-40, f'12  /  50', (180, 255, 255))
+    if selected == 'atk':
+
+        ui_atk.draw(850, 775, 160, 160)
+        ui_font.draw(760, 650, '< 공격력 증가 >', (180, 255, 255))
+        ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
+        ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
+
+    elif selected == 'heart':
+
+        ui_heart.draw(850, 775, 160, 160)
+        ui_font.draw(775, 650, '< 체력 증가 >', (180, 255, 255))
+        ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
+        ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
+
+    elif selected == 'def':
+
+        ui_def.draw(850, 775, 160, 160)
+        ui_font.draw(760, 650, '< 방어력 증가 >', (180, 255, 255))
+        ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
+        ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
+
+    elif selected == 'ship':
+
+        ui_spaceship.draw(850, 775, 160, 160)
+        ui_font.draw(760, 650, '< 우주선 강화 >', (180, 255, 255))
+        ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
+        ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
+
+
+    # ui_font.draw(780, 660, f'공격력  증가', (180, 255, 255))
+    # ui_font.draw(795, 660-SIZE-20, f'0  ->  5', (180, 255, 255))
+    # ui_font.draw(795, 660-SIZE*2-40, f'12  /  50', (180, 255, 255))
 
     update_canvas()
 
@@ -74,18 +112,19 @@ def handle_events():
                 ship.key_up = ship.key_down = False
                 game_framework.pop_mode()
 
-        # elif event.type == SDL_MOUSEMOTION:
-        #     mx, my = event.x, 1000 - event.y
-        #     # hover 감지
-        #     if button.is_clicked(mx, my):
-        #         button.is_hover = True
-        #     else:
-        #         button.is_hover = False
-        #
-        # elif event.type == SDL_MOUSEBUTTONDOWN:
-        #     mx, my = event.x, 1000 - event.y
-        #     if button.is_clicked(mx, my):
-        #         game_framework.change_mode(stage_mode)
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            global selected
+            mx, my = event.x, 1000 - event.y
+
+            if clicked(mx, my, *atk_pos, UI_SIZE, UI_SIZE):
+                selected = 'atk'
+            elif clicked(mx, my, *heart_pos, UI_SIZE, UI_SIZE):
+                selected = 'heart'
+            elif clicked(mx, my, *def_pos, UI_SIZE, UI_SIZE):
+                selected = 'def'
+            elif clicked(mx, my, *ship_pos, UI_SIZE, UI_SIZE):
+                selected = 'ship'
+
 
 def pause():
     pass
