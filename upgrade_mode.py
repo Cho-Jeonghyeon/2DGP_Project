@@ -3,22 +3,26 @@ from pico2d import *
 import game_framework
 import game_world
 import stage_mode
+from game_mode_1 import ui_font
 
 upgrade = None
-
+SIZE = 30
 
 def init():
     global upgrade
-    global ui_spaceship, ui_heart, ui_atk, ui_def, ui_line
-    global ui_inform, ui_info
+    global ui_spaceship, ui_heart, ui_atk, ui_def
+    global ui_inform, ui_info, ui_font
     upgrade = load_image('images/upgrade_mode.png')
+
     ui_spaceship = load_image('UI/ui_spaceship.png')
     ui_heart = load_image('UI/ui_heart.png')
     ui_atk = load_image('UI/ui_atk.png')
     ui_def = load_image('UI/ui_def.png')
-    ui_line = load_image('UI/ui_line.png')
+
     ui_inform = load_image('UI/upgrade_inform.png')
     ui_info = load_image('UI/upgrade_info.png')
+    global SIZE
+    ui_font = load_font('fonts/MaplestoryBold.ttf', SIZE)
 
 def finish():
     pass
@@ -27,26 +31,25 @@ def update():
     pass
 
 def draw():
+
     upgrade.draw(600, 500, 1100, 926)    # 중앙에 패널 띄우기
 
-    # =============================
-    # 아이콘 좌표 (1000x920 기준)
-    # =============================
     ship_x, ship_y = 350, 500
     def_x, def_y = 350, 660
     heart_x, heart_y = 230, 420
     atk_x, atk_y = 470, 420
 
-
-    # =============================
-    # 아이콘 그리기
-    # =============================
     ui_spaceship.draw(ship_x, ship_y, 160, 160)
     ui_heart.draw(heart_x, heart_y, 160, 160)
     ui_atk.draw(atk_x, atk_y, 160, 160)
     ui_def.draw(def_x, def_y, 160, 160)
     ui_inform.draw(850, 650, 450, 500)
     ui_info.draw(850, 775, 165, 165)
+
+    ui_font.draw(780, 660, f'공격력  증가', (180, 255, 255))
+    ui_font.draw(795, 660-SIZE-20, f'0  ->  5', (180, 255, 255))
+    ui_font.draw(795, 660-SIZE*2-40, f'12  /  50', (180, 255, 255))
+
     update_canvas()
 
 
