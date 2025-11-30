@@ -10,13 +10,15 @@ upgrade = None
 def init():
     global upgrade
     global ui_spaceship, ui_heart, ui_atk, ui_def, ui_line
-
+    global ui_inform, ui_info
     upgrade = load_image('images/upgrade_mode.png')
     ui_spaceship = load_image('UI/ui_spaceship.png')
     ui_heart = load_image('UI/ui_heart.png')
     ui_atk = load_image('UI/ui_atk.png')
     ui_def = load_image('UI/ui_def.png')
     ui_line = load_image('UI/ui_line.png')
+    ui_inform = load_image('UI/upgrade_inform.png')
+    ui_info = load_image('UI/upgrade_info.png')
 
 def finish():
     pass
@@ -25,13 +27,28 @@ def update():
     pass
 
 def draw():
+    upgrade.draw(600, 500, 1100, 926)    # 중앙에 패널 띄우기
 
-    upgrade.draw(600, 500)      # 배경 그리기
-    # ui_spaceship.draw(450, 600)
-    # ui_heart.draw(350, 480)
-    # ui_atk.draw(550, 480)
-    # ui_def.draw(450, 360)
+    # =============================
+    # 아이콘 좌표 (1000x920 기준)
+    # =============================
+    ship_x, ship_y = 350, 500
+    def_x, def_y = 350, 660
+    heart_x, heart_y = 230, 420
+    atk_x, atk_y = 470, 420
+
+
+    # =============================
+    # 아이콘 그리기
+    # =============================
+    ui_spaceship.draw(ship_x, ship_y, 160, 160)
+    ui_heart.draw(heart_x, heart_y, 160, 160)
+    ui_atk.draw(atk_x, atk_y, 160, 160)
+    ui_def.draw(def_x, def_y, 160, 160)
+    ui_inform.draw(850, 650, 450, 500)
+    ui_info.draw(850, 775, 165, 165)
     update_canvas()
+
 
 def handle_events():
     event_list = get_events()
@@ -41,7 +58,7 @@ def handle_events():
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             if stage_mode.spaceship and stage_mode.stage_x!= None:
-                print("디버깅")
+                #print("디버깅")
                 ship = stage_mode.spaceship
                 ship.x = stage_mode.stage_x
                 ship.y = stage_mode.stage_y

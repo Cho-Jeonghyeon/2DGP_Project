@@ -82,7 +82,7 @@ class UpgradeButton:
         alpha = (math.sin(get_time() * 3) + 1) / 2  # 0~1 사이 변화
         self.image.opacify(0.5 + 0.5 * alpha)  # 밝기 깜빡임
         self.image.draw(self.x, self.y, self.w, self.h)
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
 
     def update(self):
         target_scale = 1.2 if self.is_hover else 1.0  # hover 시 20% 확대
