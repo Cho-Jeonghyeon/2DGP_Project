@@ -15,7 +15,7 @@ def init():
     global ui_spaceship, ui_heart, ui_atk, ui_def
     global ui_inform, ui_info, ui_font, ui_font2, ui_font3
     global rock_1,rock_2,rock_3,rock_4
-
+    global upgrade_btn
     upgrade = load_image('images/upgrade_mode.png')
 
     ui_spaceship = load_image('UI/ui_spaceship.png')
@@ -29,6 +29,8 @@ def init():
     ui_font = load_font('fonts/MaplestoryBold.ttf', SIZE)
     ui_font2 = load_font('fonts/MaplestoryBold.ttf', 45)
     ui_font3 = load_font('fonts/MaplestoryBold.ttf', 20)
+
+    upgrade_btn = load_image('UI/upgrade_btn.png')
 
     rock_1 = load_image('images/1.png')
     rock_2 = load_image('images/2.png')
@@ -99,6 +101,8 @@ def draw():
     ui_def.draw(*def_pos, UI_SIZE, UI_SIZE)
 
     get_rock_count()
+
+    upgrade_btn.draw(965,455,170,85)
 
 
     update_canvas()
