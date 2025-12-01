@@ -13,7 +13,9 @@ selected = None
 def init():
     global upgrade
     global ui_spaceship, ui_heart, ui_atk, ui_def
-    global ui_inform, ui_info, ui_font
+    global ui_inform, ui_info, ui_font, ui_font2, ui_font3
+    global rock_1,rock_2,rock_3,rock_4
+
     upgrade = load_image('images/upgrade_mode.png')
 
     ui_spaceship = load_image('UI/ui_spaceship.png')
@@ -25,6 +27,14 @@ def init():
     ui_info = load_image('UI/upgrade_info.png')
     global SIZE
     ui_font = load_font('fonts/MaplestoryBold.ttf', SIZE)
+    ui_font2 = load_font('fonts/MaplestoryBold.ttf', 45)
+    ui_font3 = load_font('fonts/MaplestoryBold.ttf', 20)
+
+    rock_1 = load_image('images/1.png')
+    rock_2 = load_image('images/2.png')
+    rock_3 = load_image('images/3.png')
+    rock_4 = load_image('images/4.png')
+
 
 def clicked(px, py, cx, cy, w, h):
     return (cx - w/2 < px < cx + w/2) and (cy - h/2 < py < cy + h/2)
@@ -56,6 +66,7 @@ def draw():
         ui_font.draw(760, 650, '< 공격력 증가 >', (180, 255, 255))
         ui_font.draw(795, 600, f'{game_data.atk}   ->   {game_data.atk+2}', (180, 255, 255))
         ui_font.draw(795, 550, f'{game_data.rock_count[1]}   /   {game_data.req_atk[game_data.atk_lv]}', (180, 255, 255))
+        lV()
 
     elif selected == 'heart':
         ui_info.draw(*heart_pos, 175, 175)
@@ -63,6 +74,7 @@ def draw():
         ui_font.draw(775, 650, '< 체력 증가 >', (180, 255, 255))
         ui_font.draw(795, 600, f'{game_data.heart}   ->   {game_data.heart+20}', (180, 255, 255))
         ui_font.draw(795, 550, f'{game_data.rock_count[2]}   /   {game_data.req_heart[game_data.heart_lv]}', (180, 255, 255))
+        lV()
 
     elif selected == 'def':
         ui_info.draw(*def_pos, 175, 175)
@@ -70,6 +82,7 @@ def draw():
         ui_font.draw(760, 650, '< 방어력 증가 >', (180, 255, 255))
         ui_font.draw(795, 600, f'{game_data.deff}   ->   {game_data.deff+1}', (180, 255, 255))
         ui_font.draw(795, 550, f'{game_data.rock_count[3]}   /   {game_data.req_def[game_data.def_lv]}', (180, 255, 255))
+        lV()
 
     elif selected == 'ship':
         ui_info.draw(*ship_pos, 175, 175)
@@ -77,6 +90,7 @@ def draw():
         ui_font.draw(760, 650, '< 우주선 강화 >', (180, 255, 255))
         ui_font.draw(795, 600, f'{game_data.ship}   ->   {game_data.ship+5}', (180, 255, 255))
         ui_font.draw(795, 550, f'{game_data.rock_count[4]}   /   {game_data.req_ship[game_data.ship_lv]}', (180, 255, 255))
+        lV()
 
         # --- 왼쪽 스킬 아이콘 ---
     ui_spaceship.draw(*ship_pos, UI_SIZE, UI_SIZE)
@@ -85,6 +99,7 @@ def draw():
     ui_def.draw(*def_pos, UI_SIZE, UI_SIZE)
 
     get_rock_count()
+
 
     update_canvas()
 
@@ -122,7 +137,11 @@ def handle_events():
                 selected = 'def'
             elif clicked(mx, my, *ship_pos, UI_SIZE, UI_SIZE):
                 selected = 'ship'
-
+            #elif clicked()
+            #   selfected = atk upgrade
+            #   game_data.atk_lv+1
+            #   game_data.req_atk
+            #똑같이 3번 반복
 
 def pause():
     pass
@@ -130,4 +149,21 @@ def resume():
     pass
 
 def get_rock_count():
-    pass
+    rock_1.draw(670,330,30,30)
+    ui_font3.draw(700, 330, f': {game_data.rock_count[1]}', (180, 255, 255))
+    rock_2.draw(770,330,30,30)
+    ui_font3.draw(800, 330, f': {game_data.rock_count[2]}', (180, 255, 255))
+    rock_3.draw(870,330,30,30)
+    ui_font3.draw(900, 330, f': {game_data.rock_count[3]}', (180, 255, 255))
+    rock_4.draw(970,330,30,30)
+    ui_font3.draw(1000, 330, f': {game_data.rock_count[4]}', (180, 255, 255))
+
+def lV():
+    if selected == 'atk':
+        ui_font2.draw(700,440,f'LV {game_data.atk_lv}',(180, 255, 255))
+    elif selected == 'heart':
+        ui_font2.draw(700, 440, f'LV {game_data.heart_lv}', (180, 255, 255))
+    elif selected == 'def':
+        ui_font2.draw(700, 440, f'LV {game_data.def_lv}', (180, 255, 255))
+    elif selected == 'ship':
+        ui_font2.draw(700, 440, f'LV {game_data.ship_lv}', (180, 255, 255))
