@@ -102,6 +102,7 @@ def handle_events():
             game_framework.quit()
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_r:
+            stage_mode.stage_x , stage_mode.stage_y = None, None
             game_framework.change_mode(stage_mode)
 
         else:

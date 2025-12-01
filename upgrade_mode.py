@@ -1,5 +1,6 @@
 from pico2d import *
 
+import game_data
 import game_framework
 import game_world
 import stage_mode
@@ -53,29 +54,29 @@ def draw():
         ui_info.draw(*atk_pos, 175, 175)
         ui_atk.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 공격력 증가 >', (180, 255, 255))
-        ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
-        ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
+        ui_font.draw(795, 600, f'{game_data.atk}   ->   {game_data.atk+2}', (180, 255, 255))
+        ui_font.draw(795, 550, f'{game_data.rock_count[1]}   /   {game_data.req_atk[game_data.atk_lv]}', (180, 255, 255))
 
     elif selected == 'heart':
         ui_info.draw(*heart_pos, 175, 175)
         ui_heart.draw(850, 775, 160, 160)
         ui_font.draw(775, 650, '< 체력 증가 >', (180, 255, 255))
-        ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
-        ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
+        ui_font.draw(795, 600, f'{game_data.heart}   ->   {game_data.heart+20}', (180, 255, 255))
+        ui_font.draw(795, 550, f'{game_data.rock_count[2]}   /   {game_data.req_heart[game_data.heart_lv]}', (180, 255, 255))
 
     elif selected == 'def':
         ui_info.draw(*def_pos, 175, 175)
         ui_def.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 방어력 증가 >', (180, 255, 255))
-        ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
-        ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
+        ui_font.draw(795, 600, f'{game_data.deff}   ->   {game_data.deff+1}', (180, 255, 255))
+        ui_font.draw(795, 550, f'{game_data.rock_count[3]}   /   {game_data.req_def[game_data.def_lv]}', (180, 255, 255))
 
     elif selected == 'ship':
         ui_info.draw(*ship_pos, 175, 175)
         ui_spaceship.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 우주선 강화 >', (180, 255, 255))
-        ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
-        ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
+        ui_font.draw(795, 600, f'{game_data.ship}   ->   {game_data.ship+5}', (180, 255, 255))
+        ui_font.draw(795, 550, f'{game_data.rock_count[4]}   /   {game_data.req_ship[game_data.ship_lv]}', (180, 255, 255))
 
         # --- 왼쪽 스킬 아이콘 ---
     ui_spaceship.draw(*ship_pos, UI_SIZE, UI_SIZE)
@@ -83,9 +84,7 @@ def draw():
     ui_atk.draw(*atk_pos, UI_SIZE, UI_SIZE)
     ui_def.draw(*def_pos, UI_SIZE, UI_SIZE)
 
-    # ui_font.draw(780, 660, f'공격력  증가', (180, 255, 255))
-    # ui_font.draw(795, 660-SIZE-20, f'0  ->  5', (180, 255, 255))
-    # ui_font.draw(795, 660-SIZE*2-40, f'12  /  50', (180, 255, 255))
+    get_rock_count()
 
     update_canvas()
 
@@ -130,3 +129,5 @@ def pause():
 def resume():
     pass
 
+def get_rock_count():
+    pass
