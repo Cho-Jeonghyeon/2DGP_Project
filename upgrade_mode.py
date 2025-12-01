@@ -45,44 +45,43 @@ def draw():
 
     upgrade.draw(600, 500, 1100, 926)    # 중앙에 패널 띄우기
 
-    # --- 왼쪽 스킬 아이콘 ---
-    ui_spaceship.draw(*ship_pos, UI_SIZE, UI_SIZE)
-    ui_heart.draw(*heart_pos, UI_SIZE, UI_SIZE)
-    ui_atk.draw(*atk_pos, UI_SIZE, UI_SIZE)
-    ui_def.draw(*def_pos, UI_SIZE, UI_SIZE)
-
     # --- 오른쪽 패널 ---
     ui_inform.draw(850, 650, 450, 500)
     ui_info.draw(850, 775, 175, 175)
 
     if selected == 'atk':
-
+        ui_info.draw(*atk_pos, 175, 175)
         ui_atk.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 공격력 증가 >', (180, 255, 255))
         ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
         ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
 
     elif selected == 'heart':
-
+        ui_info.draw(*heart_pos, 175, 175)
         ui_heart.draw(850, 775, 160, 160)
         ui_font.draw(775, 650, '< 체력 증가 >', (180, 255, 255))
         ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
         ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
 
     elif selected == 'def':
-
+        ui_info.draw(*def_pos, 175, 175)
         ui_def.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 방어력 증가 >', (180, 255, 255))
         ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
         ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
 
     elif selected == 'ship':
-
+        ui_info.draw(*ship_pos, 175, 175)
         ui_spaceship.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 우주선 강화 >', (180, 255, 255))
         ui_font.draw(795, 600, '0   ->   5', (180, 255, 255))
         ui_font.draw(795, 550, '12   /   50', (180, 255, 255))
 
+        # --- 왼쪽 스킬 아이콘 ---
+    ui_spaceship.draw(*ship_pos, UI_SIZE, UI_SIZE)
+    ui_heart.draw(*heart_pos, UI_SIZE, UI_SIZE)
+    ui_atk.draw(*atk_pos, UI_SIZE, UI_SIZE)
+    ui_def.draw(*def_pos, UI_SIZE, UI_SIZE)
 
     # ui_font.draw(780, 660, f'공격력  증가', (180, 255, 255))
     # ui_font.draw(795, 660-SIZE-20, f'0  ->  5', (180, 255, 255))

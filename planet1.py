@@ -32,7 +32,7 @@ class Planet:
             for row in self.map
         ]
 
-        self.rock_count = {1:0,2:0,3:0,4:0}
+        #self.rock_count = {1:0,2:0,3:0,4:0}
 
         self.tile_damage = [
             [self.get_tile_damage(tile) for tile in row]
@@ -104,8 +104,10 @@ class Planet:
                         # HP가 0 이하이면 제거
                         if self.tile_hp[r][c] <= 0:
                             exp_to_ship += self.tile_exp[r][c]
-                            self.rock_count[tile] += 1
-                            print(self.rock_count)
+                            import game_data
+                            game_data.rock_count[tile] += 1
+                            #self.rock_count[tile] += 1
+                            print(game_data.rock_count)
                             self.map[r][c] = 0
                             self.tile_hp[r][c] = 0
                             self.tile_damage[r][c] = 0

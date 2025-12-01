@@ -33,6 +33,7 @@ def init():
     game_world.add_objects([stage1, stage2, stage3, upgrade, equipment], 1)
     game_world.add_objects([spaceship], 2)
 
+
 def finish():
     game_world.clear()
 

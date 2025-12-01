@@ -1,7 +1,10 @@
 from pico2d import *
+
+import game_data
 import game_framework
 import game_world
 import gameover_mode
+import stage_mode
 
 from planet1 import *
 from spaceship_game import Spaceship
@@ -98,6 +101,9 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
 
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_r:
+            game_framework.change_mode(stage_mode)
+
         else:
             spaceship.handle_event(event)
 
@@ -127,7 +133,8 @@ def draw():
 
 
 def draw_rock_ui(plant):
-    num = plant.rock_count
+    num = game_data.rock_count
+
     base_x = SCREEN_W - 120  # 패널 left
     base_y = SCREEN_H - 200  # 패널 center
     ui_rock_penel.draw(base_x, base_y, 130,120)
