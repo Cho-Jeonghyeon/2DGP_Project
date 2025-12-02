@@ -27,3 +27,11 @@ speed = 250
 hp = 300
 max_hp = 300
 level = 1
+
+
+rock_break_count = {
+    1: 0,   # stone
+    2: 0,   # iron
+    3: 0,   # ruby
+    4: 0,   # core
+}

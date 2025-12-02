@@ -1,6 +1,7 @@
 # planet1.py
 from pico2d import load_image, draw_rectangle
 import math
+import game_data
 
 TILE = 32
 SCREEN_W = 1200
@@ -44,6 +45,7 @@ class Planet:
             for row in self.map
         ]
 
+        self.rock1, self.rock2, self.rock3, self.rock4 = 0, 0, 0, 0
 
     def get_tile_hp(self, tile):
         if tile == 1: return 15     # dirt
@@ -90,6 +92,7 @@ class Planet:
         damage : 드릴 데미지
         radius : 원형 범위 파괴
         """
+        global game_data
         tile_c = int(world_x // TILE)
         tile_r = int(world_y // TILE)
 
@@ -118,8 +121,9 @@ class Planet:
                         tile_damagetoship += self.tile_damage[r][c]
                         # HP가 0 이하이면 제거
                         if self.tile_hp[r][c] <= 0:
+
+                            game_data.rock_break_count[tile] += 1
                             exp_to_ship += self.tile_exp[r][c]
-                            import game_data
                             game_data.rock_count[tile] += 1
                             #self.rock_count[tile] += 1
                             print(game_data.rock_count)
