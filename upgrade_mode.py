@@ -68,7 +68,7 @@ def draw():
         ui_info.draw(*atk_pos, 175, 175)
         ui_atk.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 공격력 증가 >', (180, 255, 255))
-        ui_font.draw(795, 600, f'{game_data.atk}   ->   {game_data.atk+2}', (180, 255, 255))
+        ui_font.draw(795, 600, f'{game_data.atk}   ->   {game_data.atk+5}', (180, 255, 255))
         ui_font.draw(795, 550, f'{game_data.rock_count[1]}   /   {game_data.req_atk[game_data.atk_lv]}', (180, 255, 255))
         lV()
 
@@ -77,7 +77,7 @@ def draw():
         ui_info.draw(*heart_pos, 175, 175)
         ui_heart.draw(850, 775, 160, 160)
         ui_font.draw(775, 650, '< 체력 증가 >', (180, 255, 255))
-        ui_font.draw(795, 600, f'{game_data.heart}   ->   {game_data.heart+20}', (180, 255, 255))
+        ui_font.draw(795, 600, f'{game_data.heart}   ->   {game_data.heart+50}', (180, 255, 255))
         ui_font.draw(795, 550, f'{game_data.rock_count[2]}   /   {game_data.req_heart[game_data.heart_lv]}', (180, 255, 255))
         lV()
 
@@ -155,7 +155,7 @@ def handle_events():
                 if selected == 'heart' and game_data.req_heart[game_data.heart_lv] <= game_data.rock_count[2]:
                     game_data.rock_count[2] -= game_data.req_heart[game_data.heart_lv]
                     game_data.heart_lv += 1
-                    game_data.heart += 20
+                    game_data.heart += 50
 
                 if selected == 'ship' and game_data.req_ship[game_data.ship_lv] <= game_data.rock_count[4]:
                     game_data.rock_count[4] -= game_data.req_ship[game_data.ship_lv]
@@ -165,7 +165,7 @@ def handle_events():
                 if selected == 'atk' and game_data.req_atk[game_data.atk_lv] <= game_data.rock_count[1]:
                     game_data.rock_count[1] -= game_data.req_atk[game_data.atk_lv]
                     game_data.atk_lv += 1
-                    game_data.atk += 2
+                    game_data.atk += 5
 
 
 def pause():
