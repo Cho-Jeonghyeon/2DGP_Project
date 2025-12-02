@@ -1,5 +1,5 @@
 from pico2d import *
-
+import clear_mode
 import game_data
 import game_framework
 import game_world
@@ -138,6 +138,8 @@ def update():
         flash_alpha -= game_framework.frame_time * 4
         if flash_alpha < 0:
             flash_alpha = 0  # 절대 0 이하로 내려가지 않게
+            delay(1)
+            game_framework.push_mode(clear_mode)
 
 def draw():
     clear_canvas()
@@ -242,3 +244,6 @@ def draw_exp_bar(spaceship):
     exp_right.draw(right_x + exp_right.w // 2, base_y)
 
     ui_font.draw(520, 930, f'{spaceship.exp}  /  {spaceship.max_exp}', (0, 0, 0))
+
+def pause():
+    pass
