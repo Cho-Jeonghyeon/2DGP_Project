@@ -39,7 +39,7 @@ class Drill:
 
             # size 커졌다가 줄어드는 효과
           #  scale = 1.15 - (0.15 * (1 - self.hit_timer / 0.08))
-            scale = 1.35 - (0.35 * (1 - self.hit_timer / 0.08))
+            scale = 1.45 - (0.45 * (1 - self.hit_timer / 0.08))
 
             # 최종 출력 크기
         final_size = self.drill_size * scale
