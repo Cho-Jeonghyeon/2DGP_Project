@@ -247,3 +247,6 @@ def draw_exp_bar(spaceship):
 
 def pause():
     pass
+
+def resume():
+    pass

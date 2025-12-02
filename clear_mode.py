@@ -1,6 +1,7 @@
 from pico2d import *
 
 import game_data
+import stage_mode
 from planet1 import Planet
 import game_framework
 import game_world
@@ -59,7 +60,8 @@ def draw():
         font2.draw(730, 400, f"{game_data.rock_break_count[4]}", (255,255,255))
 
     if show_step >= 4.5:
-        font2.draw(500, 300, 'Press SPACE', (255, 255, 255))
+        if (blink_timer % 1.0) < 0.5:
+            font2.draw(500, 300, 'Press SPACE', (255, 255, 255))
 
     update_canvas()
 
@@ -68,6 +70,7 @@ def handle_events():
     for e in events:
         if e.type == SDL_KEYDOWN and e.key == SDLK_SPACE:
             game_framework.pop_mode()  # SPACE 눌러 나가기
+            game_framework.change_mode(stage_mode)
         elif e.type == SDL_QUIT:
             game_framework.quit()
 
