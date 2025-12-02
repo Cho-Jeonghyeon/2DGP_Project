@@ -32,8 +32,8 @@ class Spaceship:
         self.image = load_image('images/spaceship_level_1.png')
 
 
-        self.hp = game_data.hp
-        self.max_hp = game_data.max_hp
+        self.hp = game_data.hp + game_data.heart
+        self.max_hp = game_data.max_hp + game_data.heart
         self.exp = 0
         self.max_exp = 500
         self.level = game_data.level
@@ -91,13 +91,14 @@ class Spaceship:
         # 4) bounce(반동)
         # ---------------------
         if hit:
-            self.hp -= tile_damage
-            print(self.hp)
+
+            self.hp -= (tile_damage - game_data.deff)
+            print(game_data.deff,self.hp)
             # bounce = 1500 * frame_time
             # self.world_x -= math.cos(self.angle) * bounce
             # self.world_y -= math.sin(self.angle) * bounce
             self.drill.hit_timer = 0.08
-            bounce = 600 * frame_time + 20
+            bounce = 600 * frame_time + 40
             self.world_x -= math.cos(self.angle) * bounce
             self.world_y -= math.sin(self.angle) * bounce
 
