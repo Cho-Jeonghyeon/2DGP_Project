@@ -8,7 +8,7 @@ from game_mode_1 import ui_font
 
 upgrade = None
 SIZE = 30
-selected = None
+
 
 def init():
     global upgrade
@@ -16,6 +16,8 @@ def init():
     global ui_inform, ui_info, ui_font, ui_font2, ui_font3
     global rock_1,rock_2,rock_3,rock_4
     global upgrade_btn
+    global selected
+    selected = 'ship'
     upgrade = load_image('images/upgrade_mode.png')
 
     ui_spaceship = load_image('UI/ui_spaceship.png')
@@ -69,6 +71,7 @@ def draw():
         ui_font.draw(795, 600, f'{game_data.atk}   ->   {game_data.atk+2}', (180, 255, 255))
         ui_font.draw(795, 550, f'{game_data.rock_count[1]}   /   {game_data.req_atk[game_data.atk_lv]}', (180, 255, 255))
         lV()
+
 
     elif selected == 'heart':
         ui_info.draw(*heart_pos, 175, 175)
@@ -141,11 +144,29 @@ def handle_events():
                 selected = 'def'
             elif clicked(mx, my, *ship_pos, UI_SIZE, UI_SIZE):
                 selected = 'ship'
-            #elif clicked()
-            #   selfected = atk upgrade
-            #   game_data.atk_lv+1
-            #   game_data.req_atk
-            #똑같이 3번 반복
+
+            if clicked(mx, my, 965, 455, 170, 85):
+
+                if selected == 'def' and game_data.req_def[game_data.def_lv] <= game_data.rock_count[3]:
+                    game_data.rock_count[3] -= game_data.req_def[game_data.def_lv]
+                    game_data.def_lv += 1
+                    game_data.deff += 1
+
+                if selected == 'heart' and game_data.req_heart[game_data.heart_lv] <= game_data.rock_count[2]:
+                    game_data.rock_count[2] -= game_data.req_heart[game_data.heart_lv]
+                    game_data.heart_lv += 1
+                    game_data.heart += 20
+
+                if selected == 'ship' and game_data.req_ship[game_data.ship_lv] <= game_data.rock_count[4]:
+                    game_data.rock_count[4] -= game_data.req_ship[game_data.ship_lv]
+                    game_data.ship_lv += 1
+                    game_data.ship += 5
+
+                if selected == 'atk' and game_data.req_atk[game_data.atk_lv] <= game_data.rock_count[1]:
+                    game_data.rock_count[1] -= game_data.req_atk[game_data.atk_lv]
+                    game_data.atk_lv += 1
+                    game_data.atk += 2
+
 
 def pause():
     pass

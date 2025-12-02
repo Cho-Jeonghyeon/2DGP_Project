@@ -5,6 +5,7 @@ import math
 
 from drill import Drill
 from planet1 import TILE, SCREEN_W, SCREEN_H
+import game_data
 
 class Spaceship:
     def __init__(self, planet):
@@ -16,7 +17,7 @@ class Spaceship:
 
         # ===== Movement =====
         self.angle = -math.pi / 2           # 처음엔 아래쪽
-        self.speed = 250
+        self.speed = game_data.speed
         self.dx = 0
         self.dy = 0
 
@@ -30,12 +31,12 @@ class Spaceship:
 
         self.image = load_image('images/spaceship_level_1.png')
 
-        self.hp = 400
-        self.max_hp = 400
 
+        self.hp = game_data.hp
+        self.max_hp = game_data.max_hp
         self.exp = 0
         self.max_exp = 500
-        self.level = 1
+        self.level = game_data.level
 
     def get_bb(self):
         screen_x = self.world_x - self.camera_x
@@ -168,5 +169,5 @@ class Spaceship:
         drill_screen_y = drill_world_y - self.camera_y
 
         self.drill.draw(drill_screen_x, drill_screen_y, self.angle- math.pi/2)
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
 
