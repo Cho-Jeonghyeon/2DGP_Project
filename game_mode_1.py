@@ -49,6 +49,7 @@ exp_mid = None
 exp_right = None
 
 def init():
+
     enter()
 
 def enter():
@@ -57,7 +58,12 @@ def enter():
     global ui_level, ui_hp_exp
     global hp_left, hp_mid, hp_right
     global exp_left, exp_mid, exp_right
+    global flash_alpha, flash
+    global cleared
+    cleared = False
 
+    flash_alpha = 0
+    flash = load_image('images/white.png')  # 1픽셀짜리 흰 이미지
     # 1) 맵 로딩
     map_data = load_map('planet_map_test.txt')
 
@@ -112,9 +118,26 @@ def handle_events():
 def update():
     game_world.update()
     spaceship.update()
+
     if spaceship.hp <= 0:
+        stage_mode.stage_x, stage_mode.stage_y = None, None
         game_framework.change_mode(gameover_mode)
         return
+
+    global flash_alpha, cleared
+
+    if planet.is_cleared() and not cleared:
+        cleared = True
+        flash_alpha = 1.0
+        planet.clear_all_tiles()
+        game_data.rock_count[1] += 100  # 보상으로 돌 100개 지급
+        game_data.rock_count[2] += 100  # 보상으로 돌 100개 지급
+        game_data.rock_count[3] += 100  # 보상으로 돌 100개 지급
+
+    if flash_alpha > 0:
+        flash_alpha -= game_framework.frame_time * 4
+        if flash_alpha < 0:
+            flash_alpha = 0  # 절대 0 이하로 내려가지 않게
 
 def draw():
     clear_canvas()
@@ -129,6 +152,11 @@ def draw():
     draw_hp_exp_level_ui(spaceship)
     draw_hp_bar(spaceship)
     draw_exp_bar(spaceship)
+
+    if flash_alpha > 0:
+        flash.opacify(flash_alpha)
+        flash.draw(600, 500, 1200, 1000)
+        flash.opacify(1)
 
     update_canvas()
 

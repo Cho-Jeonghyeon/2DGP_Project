@@ -46,17 +46,17 @@ class Planet:
 
 
     def get_tile_hp(self, tile):
-        if tile == 1: return 10     # dirt
-        if tile == 2: return 20     # stone
-        if tile == 3: return 30     # iron
-        if tile == 4: return 40    # cobalt
+        if tile == 1: return 15     # dirt
+        if tile == 2: return 25     # stone
+        if tile == 3: return 35     # iron
+        if tile == 4: return 45    # cobalt
         return 0
 
     def get_tile_damage(self, tile):
-        if tile == 1: return 1
-        if tile == 2: return 2
-        if tile == 3: return 3
-        if tile == 4: return 3
+        if tile == 1: return 2
+        if tile == 2: return 3
+        if tile == 3: return 4
+        if tile == 4: return 5
         return 0
 
     def get_tile_exp(self, tile):
@@ -65,6 +65,21 @@ class Planet:
         if tile == 3: return 15
         if tile == 4: return 15
         return 0
+
+    def is_cleared(self):
+        for row in self.map:
+            if 4 in row:
+               return False
+        return True
+
+    def clear_all_tiles(self):
+        for r in range(self.MAP_H):
+            for c in range(self.MAP_W):
+                self.map[r][c] = 0
+                self.tile_hp[r][c] = 0
+                self.tile_damage[r][c] = 0
+
+
 
     # ============================================
     # destroy : world 좌표 기준 파괴
