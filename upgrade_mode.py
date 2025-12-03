@@ -17,6 +17,13 @@ def init():
     global rock_1,rock_2,rock_3,rock_4
     global upgrade_btn
     global selected
+
+    global press_timer, shake_timer, shake_offset
+    # 버튼 이펙트
+    press_timer = 0  # 0.1초 유지
+    shake_timer = 0  # 0.2초 흔들림
+    shake_offset = 0  # 흔들림용 X offset
+
     selected = 'ship'
     upgrade = load_image('images/upgrade_mode.png')
 
@@ -47,7 +54,22 @@ def finish():
     pass
 
 def update():
-    pass
+    global press_timer, shake_timer, shake_offset
+
+    # 버튼 눌림 효과 감소
+    if press_timer > 0:
+        press_timer -= game_framework.frame_time
+        if press_timer < 0:
+            press_timer = 0
+
+    # 흔들림 효과 감소
+    if shake_timer > 0:
+        shake_timer -= game_framework.frame_time
+        shake_offset = (math.sin(shake_timer * 40) * 10)  # 좌우 흔들림
+        if shake_timer < 0:
+            shake_timer = 0
+            shake_offset = 0
+
 
 # 아이콘 위치
 ship_pos = (350, 500)
@@ -105,8 +127,25 @@ def draw():
 
     get_rock_count()
 
-    upgrade_btn.draw(965,455,170,85)
+    # 업그레이드 버튼 위치
+    upgrade_x = 965
+    upgrade_y = 455
+    upgrade_w = 170
+    upgrade_h = 85
 
+    # ---- 눌림 효과(press) ----
+    scale = 1.0
+    if press_timer > 0:
+        scale = 0.92  # 눌리면 약간 줄어듦
+
+
+    # 버튼 그리기
+    upgrade_btn.draw(
+        965 + shake_offset,
+        455,
+        170 * scale,
+        85 * scale
+    )
 
     update_canvas()
 
@@ -147,25 +186,38 @@ def handle_events():
 
             if clicked(mx, my, 965, 455, 170, 85):
 
+                success = False
+
                 if selected == 'def' and game_data.req_def[game_data.def_lv] <= game_data.rock_count[3]:
                     game_data.rock_count[3] -= game_data.req_def[game_data.def_lv]
                     game_data.def_lv += 1
                     game_data.deff += 1
+                    success = True
 
                 if selected == 'heart' and game_data.req_heart[game_data.heart_lv] <= game_data.rock_count[2]:
                     game_data.rock_count[2] -= game_data.req_heart[game_data.heart_lv]
                     game_data.heart_lv += 1
                     game_data.heart += 50
+                    success = True
 
                 if selected == 'ship' and game_data.req_ship[game_data.ship_lv] <= game_data.rock_count[4]:
                     game_data.rock_count[4] -= game_data.req_ship[game_data.ship_lv]
                     game_data.ship_lv += 1
                     game_data.ship += 5
+                    success = True
 
                 if selected == 'atk' and game_data.req_atk[game_data.atk_lv] <= game_data.rock_count[1]:
                     game_data.rock_count[1] -= game_data.req_atk[game_data.atk_lv]
                     game_data.atk_lv += 1
                     game_data.atk += 5
+                    success = True
+
+                if success:
+                    global press_timer
+                    press_timer = 0.12
+                else:
+                    global shake_timer
+                    shake_timer = 0.2
 
 
 def pause():

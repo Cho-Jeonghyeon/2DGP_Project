@@ -70,6 +70,7 @@ def handle_events():
     for e in events:
         if e.type == SDL_KEYDOWN and e.key == SDLK_SPACE:
             game_framework.pop_mode()  # SPACE 눌러 나가기
+            stage_mode.stage_x, stage_mode.stage_y = None, None
             game_framework.change_mode(stage_mode)
         elif e.type == SDL_QUIT:
             game_framework.quit()
