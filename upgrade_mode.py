@@ -9,6 +9,9 @@ from game_mode_1 import ui_font
 upgrade = None
 SIZE = 30
 
+selected_icon_scale = 1.0
+icon_scale_dir = 1   # 커졌다 작아졌다 반복
+pulse_count = 0
 
 def init():
     global upgrade
@@ -70,6 +73,26 @@ def update():
             shake_timer = 0
             shake_offset = 0
 
+    global selected_icon_scale, icon_scale_dir, pulse_count
+
+    # 선택된 아이콘 Pulse 효과
+    if selected is not None and pulse_count < 2\
+            :
+        selected_icon_scale += icon_scale_dir * 0.01
+        if selected_icon_scale > 1.1:
+            selected_icon_scale = 1.1
+            icon_scale_dir = -1
+        elif selected_icon_scale < 1.0:
+            selected_icon_scale = 1.0
+            icon_scale_dir = 1
+            pulse_count += 1
+
+
+def reset_pulse(): #2번만 효과 주기 위한 함수
+    global selected_icon_scale, icon_scale_dir, pulse_count
+    selected_icon_scale = 1.0
+    icon_scale_dir = 1
+    pulse_count = 0
 
 # 아이콘 위치
 ship_pos = (350, 500)
@@ -86,8 +109,16 @@ def draw():
     ui_inform.draw(850, 650, 450, 500)
     ui_info.draw(850, 775, 175, 175)
 
+        # --- 왼쪽 스킬 아이콘 ---
+    ui_spaceship.draw(*ship_pos, UI_SIZE, UI_SIZE)
+    ui_heart.draw(*heart_pos, UI_SIZE, UI_SIZE)
+    ui_atk.draw(*atk_pos, UI_SIZE, UI_SIZE)
+    ui_def.draw(*def_pos, UI_SIZE, UI_SIZE)
+
+    size = 160 * selected_icon_scale
     if selected == 'atk':
         ui_info.draw(*atk_pos, 175, 175)
+        ui_atk.draw(*atk_pos, size, size)
         ui_atk.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 공격력 증가 >', (180, 255, 255))
         ui_font.draw(795, 600, f'{game_data.atk}   ->   {game_data.atk+5}', (180, 255, 255))
@@ -97,6 +128,7 @@ def draw():
 
     elif selected == 'heart':
         ui_info.draw(*heart_pos, 175, 175)
+        ui_heart.draw(*heart_pos, size, size)
         ui_heart.draw(850, 775, 160, 160)
         ui_font.draw(775, 650, '< 체력 증가 >', (180, 255, 255))
         ui_font.draw(795, 600, f'{game_data.heart}   ->   {game_data.heart+50}', (180, 255, 255))
@@ -105,6 +137,7 @@ def draw():
 
     elif selected == 'def':
         ui_info.draw(*def_pos, 175, 175)
+        ui_def.draw(*def_pos, size, size)
         ui_def.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 방어력 증가 >', (180, 255, 255))
         ui_font.draw(795, 600, f'{game_data.deff}   ->   {game_data.deff+1}', (180, 255, 255))
@@ -113,17 +146,15 @@ def draw():
 
     elif selected == 'ship':
         ui_info.draw(*ship_pos, 175, 175)
+        ui_spaceship.draw(*ship_pos, size, size)
         ui_spaceship.draw(850, 775, 160, 160)
         ui_font.draw(760, 650, '< 우주선 강화 >', (180, 255, 255))
         ui_font.draw(795, 600, f'{game_data.ship}   ->   {game_data.ship+5}', (180, 255, 255))
         ui_font.draw(795, 550, f'{game_data.rock_count[4]}   /   {game_data.req_ship[game_data.ship_lv]}', (180, 255, 255))
         lV()
 
-        # --- 왼쪽 스킬 아이콘 ---
-    ui_spaceship.draw(*ship_pos, UI_SIZE, UI_SIZE)
-    ui_heart.draw(*heart_pos, UI_SIZE, UI_SIZE)
-    ui_atk.draw(*atk_pos, UI_SIZE, UI_SIZE)
-    ui_def.draw(*def_pos, UI_SIZE, UI_SIZE)
+
+
 
     get_rock_count()
 
@@ -177,12 +208,16 @@ def handle_events():
 
             if clicked(mx, my, *atk_pos, UI_SIZE, UI_SIZE):
                 selected = 'atk'
+                reset_pulse()
             elif clicked(mx, my, *heart_pos, UI_SIZE, UI_SIZE):
                 selected = 'heart'
+                reset_pulse()
             elif clicked(mx, my, *def_pos, UI_SIZE, UI_SIZE):
                 selected = 'def'
+                reset_pulse()
             elif clicked(mx, my, *ship_pos, UI_SIZE, UI_SIZE):
                 selected = 'ship'
+                reset_pulse()
 
             if clicked(mx, my, 965, 455, 170, 85):
 
