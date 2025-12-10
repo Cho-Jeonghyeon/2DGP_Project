@@ -30,6 +30,8 @@ class Spaceship:
         self.camera_y = self.world_y - SCREEN_H // 2
 
         self.image = load_image('images/spaceship_level_1.png')
+        self.image2 = load_image('images/spaceship_level_2.png')
+        self.image3 = load_image('images/spaceship_level_3.png')
 
 
         self.hp = game_data.hp + game_data.heart
@@ -147,9 +149,12 @@ class Spaceship:
         screen_y = self.world_y - self.camera_y
 
         # world의 top/bottom에서는 screen_y가 고정에서 벗어남
-        self.image.rotate_draw(self.angle - math.pi/2,
-                               screen_x, screen_y,
-                               70, 70)
+        if game_data.ship_lv == 1:
+            self.image.rotate_draw(self.angle - math.pi/2, screen_x, screen_y, 70, 70)
+        elif game_data.ship_lv == 2:
+            self.image2.rotate_draw(self.angle - math.pi/2, screen_x, screen_y, 70, 70)
+        elif game_data.ship_lv == 3:
+            self.image3.rotate_draw(self.angle - math.pi/2, screen_x, screen_y, 70, 70)
 
         # Drill draw
         drill_world_x = self.world_x + math.cos(self.angle) * self.drill_offset

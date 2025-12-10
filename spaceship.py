@@ -1,4 +1,6 @@
 from pico2d import *
+
+import game_data
 from state_machine import StateMachine
 import math
 import game_framework
@@ -45,6 +47,9 @@ class Spaceship:
 
         self.speed = 300
         self.image = load_image('images/spaceship_level_1.png')
+        self.image2 = load_image('images/spaceship_level_2.png')
+        self.image3 = load_image('images/spaceship_level_3.png')
+
         self.IDLE, self.MOVE = Idle(self), Move(self)
         # 회전 각도 (라디안)
         self.angle = math.radians(0)  # 기본적으로 위쪽 바라봄
@@ -84,7 +89,12 @@ class Spaceship:
         draw_angle = self.angle - math.pi / 2
 
         # 우주선 회전해서 그림
-        self.image.rotate_draw(draw_angle, self.x, self.y, 70, 70)
+        if game_data.ship_lv == 1:
+            self.image.rotate_draw(draw_angle, self.x, self.y, 70, 70)
+        elif game_data.ship_lv == 2:
+            self.image2.rotate_draw(draw_angle, self.x, self.y, 70, 70)
+        elif game_data.ship_lv == 3:
+            self.image3.rotate_draw(draw_angle, self.x, self.y, 70, 70)
 
         # 드릴 위치 계산 (보정된 각도 기준)
         drill_x = self.x + math.cos(self.angle) * self.drill_offset
