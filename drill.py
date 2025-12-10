@@ -6,6 +6,11 @@ import game_framework
 class Drill:
     def __init__(self):
         self.image = load_image('images/drill_level1.png')
+        self.image2 = load_image('images/drill_level2.png')
+        self.image3 = load_image('images/drill_level3.png')
+        self.image4 = load_image('images/drill_level4.png')
+        self.image5 = load_image('images/drill_level5.png')
+
         self.frame = 0
         self.frame_speed = 20  # 회전 애니메이션 속도
         self.damage = 10 + game_data.atk
@@ -45,10 +50,43 @@ class Drill:
         final_size = self.drill_size * scale
 
         # 드릴 그리기
-        self.image.clip_composite_draw(
-            frame_index * self.frame_width, 0,
-            self.frame_width, self.frame_height,
-            draw_angle, '',
-            screen_x + shake_x, screen_y + shake_y,
-            final_size, final_size
-        )
+        if game_data.atk_lv == 1:
+            self.image.clip_composite_draw(
+                frame_index * self.frame_width, 0,
+                self.frame_width, self.frame_height,
+                draw_angle, '',
+                screen_x + shake_x, screen_y + shake_y,
+                final_size, final_size
+            )
+        elif game_data.atk_lv == 2:
+            self.image2.clip_composite_draw(
+                frame_index * self.frame_width, 0,
+                self.frame_width, self.frame_height,
+                draw_angle, '',
+                screen_x + shake_x, screen_y + shake_y,
+                final_size, final_size
+            )
+        elif game_data.atk_lv == 3:
+            self.image3.clip_composite_draw(
+                frame_index * self.frame_width, 0,
+                self.frame_width, self.frame_height,
+                draw_angle, '',
+                screen_x + shake_x, screen_y + shake_y,
+                final_size, final_size
+            )
+        elif game_data.atk_lv == 4:
+            self.image4.clip_composite_draw(
+                frame_index * self.frame_width, 0,
+                self.frame_width, self.frame_height,
+                draw_angle, '',
+                screen_x + shake_x, screen_y + shake_y,
+                final_size, final_size
+            )
+        elif game_data.atk_lv == 5:
+            self.image5.clip_composite_draw(
+                frame_index * self.frame_width, 0,
+                self.frame_width, self.frame_height,
+                draw_angle, '',
+                screen_x + shake_x, screen_y + shake_y,
+                final_size, final_size
+            )

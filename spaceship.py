@@ -93,7 +93,7 @@ class Spaceship:
             self.image.rotate_draw(draw_angle, self.x, self.y, 70, 70)
         elif game_data.ship_lv == 2:
             self.image2.rotate_draw(draw_angle, self.x, self.y, 70, 70)
-        elif game_data.ship_lv == 3:
+        elif game_data.ship_lv >= 3:
             self.image3.rotate_draw(draw_angle, self.x, self.y, 70, 70)
 
         # 드릴 위치 계산 (보정된 각도 기준)

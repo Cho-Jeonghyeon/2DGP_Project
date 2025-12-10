@@ -153,7 +153,7 @@ class Spaceship:
             self.image.rotate_draw(self.angle - math.pi/2, screen_x, screen_y, 70, 70)
         elif game_data.ship_lv == 2:
             self.image2.rotate_draw(self.angle - math.pi/2, screen_x, screen_y, 70, 70)
-        elif game_data.ship_lv == 3:
+        elif game_data.ship_lv >= 3:
             self.image3.rotate_draw(self.angle - math.pi/2, screen_x, screen_y, 70, 70)
 
         # Drill draw
