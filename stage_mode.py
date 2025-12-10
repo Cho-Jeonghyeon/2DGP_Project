@@ -20,8 +20,8 @@ def init():
     global stage_x, stage_y
     background = Background('images/main_background.png', speed=60)
     stage1 = Plant('images/ice_plant.png', 200, 800, 300, 300, game_mode_1)
-    stage2 = Plant('images/lava_plant.png', 600, 800, 300, 300, game_mode_2)
-    stage3 = Plant('images/gas_plant.png', 1000, 800, 300, 300, game_mode_3)
+    stage2 = Plant('images/lava_plant.png', 600, 800, 300, 300, game_mode_1)
+    stage3 = Plant('images/gas_plant.png', 1000, 800, 300, 300, game_mode_1)
 
     upgrade = UpgradeButton('images/upgrade.png', 425, 100, 250, 100, upgrade_mode)
     equipment = UpgradeButton('images/equip.png', 775, 100, 250, 100, upgrade_mode)
