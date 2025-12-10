@@ -4,10 +4,11 @@ import game_data
 import game_framework
 import game_world
 import stage_mode
-from game_mode_1 import ui_font
+
 
 upgrade = None
 SIZE = 30
+se_upgrade = None
 
 selected_icon_scale = 1.0
 icon_scale_dir = 1   # 커졌다 작아졌다 반복
@@ -22,6 +23,10 @@ def init():
     global selected
 
     global press_timer, shake_timer, shake_offset
+    global se_upgrade
+    se_upgrade = load_wav('sound/sound_upgrade.mp3')
+    se_upgrade.set_volume(70)
+
     # 버튼 이펙트
     press_timer = 0  # 0.1초 유지
     shake_timer = 0  # 0.2초 흔들림
@@ -207,17 +212,21 @@ def handle_events():
         elif event.type == SDL_MOUSEBUTTONDOWN:
             global selected
             mx, my = event.x, 1000 - event.y
-
+            import game_mode_1
             if clicked(mx, my, *atk_pos, UI_SIZE, UI_SIZE):
+                se_upgrade.play()
                 selected = 'atk'
                 reset_pulse()
             elif clicked(mx, my, *heart_pos, UI_SIZE, UI_SIZE):
+                se_upgrade.play()
                 selected = 'heart'
                 reset_pulse()
             elif clicked(mx, my, *def_pos, UI_SIZE, UI_SIZE):
+                se_upgrade.play()
                 selected = 'def'
                 reset_pulse()
             elif clicked(mx, my, *ship_pos, UI_SIZE, UI_SIZE):
+                se_upgrade.play()
                 selected = 'ship'
                 reset_pulse()
 
@@ -230,12 +239,14 @@ def handle_events():
                     game_data.def_lv += 1
                     game_data.deff += 1
                     success = True
+                    se_upgrade.play()
 
                 if selected == 'heart' and game_data.req_heart[game_data.heart_lv] <= game_data.rock_count[2]:
                     game_data.rock_count[2] -= game_data.req_heart[game_data.heart_lv]
                     game_data.heart_lv += 1
                     game_data.heart += 50
                     success = True
+                    se_upgrade.play()
 
                 if selected == 'ship' and game_data.req_ship[game_data.ship_lv] <= game_data.rock_count[4]:
                     game_data.rock_count[4] -= game_data.req_ship[game_data.ship_lv]
@@ -243,12 +254,14 @@ def handle_events():
                     game_data.atk += 3
                     game_data.heart += 30
                     success = True
+                    se_upgrade.play()
 
                 if selected == 'atk' and game_data.req_atk[game_data.atk_lv] <= game_data.rock_count[1]:
                     game_data.rock_count[1] -= game_data.req_atk[game_data.atk_lv]
                     game_data.atk_lv += 1
                     game_data.atk += 5
                     success = True
+                    se_upgrade.play()
 
                 if success:
                     global press_timer

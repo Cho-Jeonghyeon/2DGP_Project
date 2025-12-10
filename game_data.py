@@ -3,7 +3,7 @@
 rock_count = {1:500,2:500,3:500,4:500} #버그판
 
 #upgrade 현재 수치
-atk = 10
+atk = 100
 heart = 1000
 deff = 0
 ship = 0

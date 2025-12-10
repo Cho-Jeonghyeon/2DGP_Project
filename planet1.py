@@ -123,12 +123,17 @@ class Planet:
                         self.tile_hp[r][c] -= damage
                         # 우주선 HP 감소
 
+                        import game_mode_1
+                        game_mode_1.se_rock.play()
+
                         hit = True
 
                         tile_damagetoship += self.tile_damage[r][c]
                         # HP가 0 이하이면 제거
                         if self.tile_hp[r][c] <= 0:
 
+                            import game_mode_1
+                            game_mode_1.se_rock.play()
                             game_data.rock_break_count[tile] += 1
                             exp_to_ship += self.tile_exp[r][c]
                             game_data.rock_count[tile] += 1

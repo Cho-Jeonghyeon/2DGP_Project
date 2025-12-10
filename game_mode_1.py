@@ -5,7 +5,7 @@ import game_framework
 import game_world
 import gameover_mode
 import stage_mode
-
+import sound
 from planet1 import *
 from spaceship_game import Spaceship
 from background import Background
@@ -48,8 +48,23 @@ exp_left = None
 exp_mid = None
 exp_right = None
 
-def init():
 
+
+def init():
+    global se_clear, se_rock
+
+    # ===========================
+    # 사운드 로딩
+    # ===========================
+
+
+    se_clear = load_wav('sound/sound_clear.mp3')
+    se_clear.set_volume(85)
+
+
+
+    se_rock = load_wav('sound/sound_rock.mp3')
+    se_rock.set_volume(30)
     enter()
 
 def enter():
@@ -61,6 +76,9 @@ def enter():
     global flash_alpha, flash
     global cleared
     cleared = False
+
+
+
 
     flash_alpha = 0
     flash = load_image('images/white.png')  # 1픽셀짜리 흰 이미지
@@ -121,6 +139,7 @@ def update():
 
     if spaceship.hp <= 0:
         stage_mode.stage_x, stage_mode.stage_y = None, None
+        se_clear.play()
         game_framework.change_mode(gameover_mode)
         return
 
@@ -128,6 +147,8 @@ def update():
 
     if planet.is_cleared() and not cleared:
         cleared = True
+
+        se_clear.play()
         flash_alpha = 1.0
         planet.clear_all_tiles()
         game_data.rock_count[1] += 100  # 보상으로 돌 100개 지급

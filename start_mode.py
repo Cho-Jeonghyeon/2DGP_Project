@@ -10,6 +10,7 @@ char = None
 
 def init():
     global gamestart, button, logo, char
+
     gamestart = Background('images/main_background.png')
     button = StartButton('images/start.png', 600, 180, 300, 80)
     logo = load_image('images/plantcrusher.png')
