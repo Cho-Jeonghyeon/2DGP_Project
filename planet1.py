@@ -27,6 +27,13 @@ class Planet:
             4: load_image('images/4.png')
         }
 
+        self.broken_tile_images = {
+            1: load_image('images/1-1.png'),
+            2: load_image('images/2-1.png'),
+            3: load_image('images/3-1.png'),
+            4: load_image('images/4-1.png')
+        }
+
         # 각 타일 HP
         self.tile_hp = [
             [self.get_tile_hp(tile) for tile in row]
@@ -166,5 +173,13 @@ class Planet:
                 # world → screen 변환
                 screen_x = world_x - camera_x
                 screen_y = world_y - camera_y
+
+                hp = self.tile_hp[r][c]
+                max_hp = self.get_tile_hp(tile)
+
+                if hp <= max_hp * 0.5:
+                    img = self.broken_tile_images[tile]
+                else:
+                    img = self.tile_images[tile]
 
                 img.draw(screen_x + TILE//2, screen_y + TILE//2, TILE, TILE)
